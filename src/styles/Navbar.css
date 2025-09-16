@@ -1,0 +1,134 @@
+:root {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: white;
+}
+
+.navbar {
+  height: 3.125rem; 
+  background-color: #01538D;
+  width: 100%;
+  position: relative;
+}
+
+.nav-container {
+  max-width: 100%;
+  margin: 0;
+  padding: 0 0.8rem; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+.logo {
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+}
+
+.logo img {
+  height: 2.5rem;
+  width: auto;
+  object-fit: contain;
+}
+
+.search-box input {
+  width: 100%;
+  height: 1.75rem;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.9375rem;
+  border-radius: 50px;
+  border: 1px solid white;
+  box-sizing: border-box;
+}
+
+.cart-icon,
+.menu-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-icon-cart {
+  font-size: 1.5rem;
+  color: white;
+  cursor: pointer;
+}
+
+.menu-icon {
+  cursor: pointer;
+  color: white;
+}
+
+.nav-elements {
+  position: absolute;
+  top: 3.125rem;
+  right: 0;
+  width: 0;
+  height: calc(100vh - 3.125rem);
+  background-color: #E5F5FF;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-elements.active {
+  width: 100%;
+}
+
+.nav-elements ul {
+  list-style: none;
+  padding: 0 1rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-elements ul li {
+  margin-top: 1.25rem;
+}
+
+.nav-elements ul li a {
+  text-decoration: none;
+  color: black;
+  font-size: 1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+
+.nav-icon {
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
+  vertical-align: middle;
+}
+
+/* Desktop */
+@media (min-width: 48rem) { /* tablet */
+  .nav-elements {
+    position: static;
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    background: none;
+    overflow: visible;
+  }
+
+  .nav-elements ul {
+    flex-direction: row;
+  }
+
+  .nav-elements ul li {
+    margin: 0 1.25rem;
+  }
+
+  .menu-icon {
+    display: none;
+  }
+}
