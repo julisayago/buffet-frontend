@@ -1,14 +1,18 @@
+
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import "../styles/Home.css";
+
 
 function Home() {
-  return (
-    <>
-      <Navbar />
-      <div>
-        <h1>Home</h1>
-      </div>
-    </>
-  );
+    return (
+        <>
+            <Navbar />
+            <main className="home-container">
+            </main>
+            <Footer />
+        </>
+    );
 }
 
 export default Home;
