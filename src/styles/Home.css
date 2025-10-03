@@ -72,7 +72,6 @@
   scroll-snap-type: none;
   animation: slideLeft 1.2s ease;
 }
-
 .banner-card {
   min-width: 83%;
   border-radius: 1.6rem;
@@ -258,4 +257,3 @@
     margin-top: 60px;
   }
 }
-
