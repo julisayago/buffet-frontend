@@ -73,7 +73,7 @@ function Home() {
           </div>
 
           <div className="banner-card">
-            <img src="/src/assets/CardImage4.png" alt="Bebidas" />
+            <img src="/src/assets/CardImage4.png" alt="Desayuno" />
             <div className="banner-text">
               <h3>Refresca tu día</h3>
               <p>Variedad de bebidas para elegir</p>
