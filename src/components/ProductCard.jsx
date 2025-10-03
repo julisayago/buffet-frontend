@@ -23,5 +23,3 @@ function ProductCard({ producto, onAddToCart }) {
 }
 
 export default ProductCard;
-
-

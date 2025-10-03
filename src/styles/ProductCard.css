@@ -4,7 +4,7 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.16);
   padding: 1rem;
   text-align: center;
-  
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -108,4 +108,3 @@
     height: 160px;
   }
 }
-
