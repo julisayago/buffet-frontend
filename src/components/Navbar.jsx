@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import "../styles/Navbar.css";
+import logo from "@assets/logo-buffet.png";
+import "@styles/navbar.css";
 
 import { AiFillHome, AiOutlineClose } from "react-icons/ai";
 import { FaBoxOpen, FaUserCircle } from "react-icons/fa";
@@ -8,7 +9,7 @@ import { FiShoppingBag, FiLogOut, FiMail, FiChevronDown } from "react-icons/fi";
 import { MdLocalGroceryStore } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 
-import Carrito from "../pages/Carrito"; // 👈 Import del carrito
+import Carrito from "@pages/carrito"; // 👈 Import del carrito
 
 const Navbar = () => {
   const [showNav, setShowNav] = useState(false);
@@ -17,8 +18,8 @@ const Navbar = () => {
   // Estado carrito (solo desktop)
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-    const toggleNav = () => setShowNav((prev) => !prev);
-    const toggleDropdown = () => setDropdownOpen((prev) => !prev);
+  const toggleNav = () => setShowNav((prev) => !prev);
+  const toggleDropdown = () => setDropdownOpen((prev) => !prev);
 
   return (
     <nav className="navbar">
@@ -26,10 +27,9 @@ const Navbar = () => {
         {/* LOGO */}
         <div className="logo">
           <a href="http://localhost:5173/home">
-            <img src="/Logo-buffet.png" alt="Logo buffet UNaB" />
+            <img src={logo} alt="Logo buffet UNaB" />
           </a>
         </div>
-
 
         {/* BUSCADOR */}
         <div className="search-box">

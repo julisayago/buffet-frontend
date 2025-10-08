@@ -17,6 +17,10 @@ pnpm-debug.log*
 .env
 .env.*   # otros archivos de entorno
 
+# Archivos docker (hasta tener la versión productiva).
+Dockerfile
+.dockerignore
+
 # Editor directories and files
 .vscode/
 !.vscode/extensions.json

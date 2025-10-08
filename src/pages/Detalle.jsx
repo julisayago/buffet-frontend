@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import "../styles/Detalle.css";
+import Navbar from "@components/navbar";
+import '@styles/detalle.css';
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import Footer from "../components/Footer";
+import Footer from "@components/footer";
 
 
 

@@ -1,19 +1,23 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import Home from "./pages/Home";
-import Register from "./pages/Register";
-import Contacto from "./pages/Contacto";
-import Productos from "./pages/Productos";
-import ProductoDetalle from "./pages/ProductoDetalle"; 
-import Carrito from "./pages/Carrito";
-import Pedidos from "./pages/Pedidos";
-import Detalle from "./pages/Detalle";
-import QRPage from "./pages/QRPage";
-import Perfil from "./pages/Perfil";
+import Login from "@pages/login";
+import Home from "@pages/home";
+import Register from "@pages/register";
+import Contacto from "@pages/contacto";
+import Productos from "@pages/productos";
+import ProductoDetalle from "@pages/producto-detalle";
+import Carrito from "@pages/carrito";
+import Pedidos from "@pages/pedidos";
+import Detalle from "@pages/detalle";
+import QRPage from "@pages/qr-page";
+import Perfil from "@pages/perfil";
+import './app.css';
+import Navbar from '@components/navbar.jsx';
+import Footer from '@components/footer.jsx';
 
 function App() {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<Home />} />
@@ -27,6 +31,7 @@ function App() {
         <Route path="/qr/:id" element={<QRPage />} />
         <Route path="/perfil" element={<Perfil />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

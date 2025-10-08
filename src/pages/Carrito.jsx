@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import Navbar from "@components/navbar";
 import { AiOutlineClose } from "react-icons/ai";
-import "../styles/Carrito.css";
+import '@styles/carrito.css';
 import { AiOutlineArrowLeft } from "react-icons/ai";
 
 

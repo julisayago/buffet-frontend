@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import "../styles/Pedidos.css";
+import Navbar from "@components/navbar";
+import '@styles/pedidos.css';
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import Footer from "../components/Footer";
+import Footer from "@components/footer";
 
 
 const Pedidos = () => {

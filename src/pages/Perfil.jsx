@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import "../styles/Perfil.css";
+import Navbar from "@components/navbar";
+import '@styles/perfil.css';
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import Footer from "../components/Footer";
+import Footer from "@components/footer";
 
 function Perfil() {
   const navigate = useNavigate();
