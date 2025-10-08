@@ -1,11 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import ProductCard from "../components/ProductCard";
-import "../styles/Productos.css";
+import Navbar from "@components/navbar";
+import Footer from "@components/footer";
+import ProductCard from "@components/product-card";
+import candy from '@assets/categorias/candy.png';
+import cookie from '@assets/categorias/cookie.png';
+import potatoChips from '@assets/categorias/potato-chips.png';
+import sandwich from '@assets/categorias/sandwich.png';
+import soda from '@assets/categorias/soda.png';
+import '@styles/productos.css';
 import { AiOutlineArrowLeft } from "react-icons/ai";
-
 
 function Productos() {
   const navigate = useNavigate();

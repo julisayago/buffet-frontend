@@ -1,18 +1,18 @@
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import ProductCard from "../components/ProductCard";
-import "../styles/Home.css";
+import Navbar from '@components/navbar.jsx';
+import Footer from '@components/footer.jsx';
+import '@styles/home.css';
+import ProductCard from "@components/product-card";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
   const navigate = useNavigate();
 
   const categorias = [
-    { id: "bebidas", nombre: "Bebidas", img: "/src/assets/Categorías/Soda.png" },
-    { id: "golosinas", nombre: "Golosinas", img: "/src/assets/Categorías/Candy.png" },
-    { id: "sandwiches", nombre: "Sándwiches", img: "/src/assets/Categorías/Sandwich.png" },
-    { id: "snacks", nombre: "Snacks", img: "/src/assets/Categorías/Potato Chips.png" },
-    { id: "postres", nombre: "Postres", img: "/src/assets/Categorías/Cookie.png" },
+    { id: "bebidas", nombre: "Bebidas", img: "/src/assets/categorias/soda.png" },
+    { id: "golosinas", nombre: "Golosinas", img: "/src/assets/categorias/candy.png" },
+    { id: "sandwiches", nombre: "Sándwiches", img: "/src/assets/categorias/sandwich.png" },
+    { id: "snacks", nombre: "Snacks", img: "/src/assets/categorias/potato-chips.png" },
+    { id: "postres", nombre: "Postres", img: "/src/assets/categorias/cookie.png" },
   ];
 
   const promociones = [
@@ -21,7 +21,7 @@ function Home() {
     { id: 3, nombre: "Hamburguesa + papas", precio: 3500, categoria: "sandwiches", img: "/assets/hamburguesa-papas.png" },
     { id: 4, nombre: "Ensalada fresca", precio: 2100, categoria: "snacks", img: "/assets/ensalada.png" },
     { id: 5, nombre: "Brownie", precio: 1200, categoria: "postres", img: "/assets/brownie.png" },
-    { id: 5, nombre: "Chocolate", precio: 1200, categoria: "golosinas", img: "/assets/Chocolate.png" }
+    { id: 5, nombre: "Chocolate", precio: 1200, categoria: "golosinas", img: "/assets/chocolate.png" }
   ];
 
   // Función para añadir productos (Promociones)
@@ -46,7 +46,7 @@ function Home() {
         {/* Banners */}
         <section className="home-banners">
           <div className="banner-card">
-            <img src="/src/assets/CardImage1.png" alt="Promo del día" />
+            <img src="/src/assets/card-image-1.png" alt="Promo del día" />
             <div className="banner-text">
               <h3>Pedí desde tu aula</h3>
               <p>Sin filas, sin esperas</p>
@@ -55,7 +55,7 @@ function Home() {
           </div>
 
           <div className="banner-card">
-            <img src="/src/assets/CardImage2.png" alt="Desayuno" />
+            <img src="/src/assets/card-image-2.png" alt="Desayuno" />
             <div className="banner-text">
               <h3>Un Desayuno Perfecto</h3>
               <p>Para tu mañana</p>
@@ -64,7 +64,7 @@ function Home() {
           </div>
 
           <div className="banner-card">
-            <img src="/src/assets/CardImage3.png" alt="Snacks" />
+            <img src="/src/assets/card-image-3.png" alt="Snacks" />
             <div className="banner-text">
               <h3>Promo Snacks</h3>
               <p>¡No te lo pierdas!</p>
@@ -73,7 +73,7 @@ function Home() {
           </div>
 
           <div className="banner-card">
-            <img src="/src/assets/CardImage4.png" alt="Desayuno" />
+            <img src="/src/assets/card-image-4.png" alt="Desayuno" />
             <div className="banner-text">
               <h3>Refresca tu día</h3>
               <p>Variedad de bebidas para elegir</p>
@@ -106,7 +106,7 @@ function Home() {
           <h2>Promociones </h2>
           <div className="promociones-productos-grid">
             {promociones.map((promo) => (
-              <ProductCard key={promo.id} producto={promo} onAddToCart={handleAddToCart} /> 
+              <ProductCard key={promo.id} producto={promo} onAddToCart={handleAddToCart} />
             ))}
           </div>
         </section>

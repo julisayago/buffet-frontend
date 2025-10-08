@@ -1,7 +1,7 @@
 import React from "react";
-import "../styles/Contacto.css";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import '@styles/contacto.css';
+import Navbar from "@components/navbar";
+import Footer from "@components/footer";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { FaWhatsapp } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";

@@ -1,23 +1,23 @@
 import { useNavigate } from "react-router-dom";
-import "../styles/register.css";
-import { AiOutlineArrowLeft } from "react-icons/ai"; 
-import Logo from "../assets/Logo-buffet.png";
+import '@styles/register.css';
+import { AiOutlineArrowLeft } from "react-icons/ai";
+import Logo from "@assets/logo-buffet.png";
 
 function Register() {
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    e.preventDefault(); 
-    navigate("/"); 
+    e.preventDefault();
+    navigate("/");
   };
 
   return (
     <div className="register-container">
       <div className="register-card">
         {/* Flecha de volver atrás */}
-        <button 
-          className="back-button" 
-          type="button" 
+        <button
+          className="back-button"
+          type="button"
           onClick={() => navigate(-1)}
         >
           <AiOutlineArrowLeft size={20} />
