@@ -26,9 +26,9 @@ const Navbar = () => {
       <div className="nav-container">
         {/* LOGO */}
         <div className="logo">
-          <a href="http://localhost:5173/home">
+          <NavLink to="/home">
             <img src={logo} alt="Logo buffet UNaB" />
-          </a>
+          </NavLink>
         </div>
 
         {/* BUSCADOR */}
@@ -38,7 +38,11 @@ const Navbar = () => {
 
         {/* HAMBURGER */}
         <div className="menu-icon" onClick={toggleNav}>
-          {showNav ? <AiOutlineClose size={24} /> : <GiHamburgerMenu size={24} />}
+          {showNav ? (
+            <AiOutlineClose size={24} />
+          ) : (
+            <GiHamburgerMenu size={24} />
+          )}
         </div>
 
         {/* CARRITO MOBILE (redirige a /carrito) */}
@@ -88,17 +92,26 @@ const Navbar = () => {
         <div className="desktop-nav">
           <ul className="right-links">
             <li>
-              <NavLink to="/home" className={({ isActive }) => (isActive ? "active" : "")}>
+              <NavLink
+                to="/home"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
                 Inicio
               </NavLink>
             </li>
             <li>
-              <NavLink to="/productos" className={({ isActive }) => (isActive ? "active" : "")}>
+              <NavLink
+                to="/productos"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
                 Productos
               </NavLink>
             </li>
             <li>
-              <NavLink to="/contacto" className={({ isActive }) => (isActive ? "active" : "")}>
+              <NavLink
+                to="/contacto"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
                 Contacto
               </NavLink>
             </li>
@@ -118,17 +131,26 @@ const Navbar = () => {
               {dropdownOpen && (
                 <ul className="dropdown">
                   <li>
-                    <NavLink to="/pedidos" className={({ isActive }) => (isActive ? "active" : "")}>
+                    <NavLink
+                      to="/pedidos"
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                    >
                       <FiShoppingBag className="nav-icon" /> Mis pedidos
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to="/perfil" className={({ isActive }) => (isActive ? "active" : "")}>
+                    <NavLink
+                      to="/perfil"
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                    >
                       <FaUserCircle className="nav-icon" /> Mi cuenta
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to="/" className={({ isActive }) => (isActive ? "active" : "")}>
+                    <NavLink
+                      to="/"
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                    >
                       <FiLogOut className="nav-icon" /> Cerrar sesión
                     </NavLink>
                   </li>
