@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "@styles/login.css";
+import "@styles/register.css";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 import Logo from "@assets/logo-buffet.png";
 import { API_URL } from "@config/api";
 
-function Login() {
+function Register() {
   const navigate = useNavigate();
 
+  const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -20,20 +22,20 @@ function Login() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${API_URL}/auth/login`, {
+      const res = await fetch(`${API_URL}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ nombre, email, password }),
       });
 
       const data = await res.json();
 
       if (res.ok) {
-        setSuccess("Login exitoso");
+        setSuccess("Usuario registrado correctamente");
         localStorage.setItem("token", data.token);
         setTimeout(() => navigate("/home"), 1000);
       } else {
-        setError(data.message || "Credenciales inválidas");
+        setError(data.message || "Error al registrarse");
       }
     } catch (err) {
       console.error("Error fetch:", err.message);
@@ -43,26 +45,39 @@ function Login() {
     }
   };
 
-  const goToRegister = () => {
-    navigate("/register");
-  };
-
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <div className="login-logo-container">
-          <img src={Logo} alt="Logo buffet UNaB" className="login-logo" />
+    <div className="register-container">
+      <div className="register-card">
+        <button
+          className="back-button"
+          type="button"
+          onClick={() => navigate(-1)}
+        >
+          <AiOutlineArrowLeft size={20} />
+        </button>
+
+        <div className="register-logo-container">
+          <img src={Logo} alt="Logo buffet UNaB" className="register-logo" />
         </div>
 
-        <h4 className="login-title">Iniciar Sesión</h4>
+        <h4 className="register-title">Registrarse</h4>
 
         <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="email">Correo electrónico</label>
+          <div className="register-input-group">
+            <label>Nombre</label>
+            <input
+              type="text"
+              placeholder="Tu nombre"
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="register-input-group">
+            <label>Correo electrónico</label>
             <input
               type="email"
-              id="email"
-              name="email"
               placeholder="ejemplo@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -70,12 +85,10 @@ function Login() {
             />
           </div>
 
-          <div className="input-group">
-            <label htmlFor="password">Contraseña</label>
+          <div className="register-input-group">
+            <label>Contraseña</label>
             <input
               type="password"
-              id="password"
-              name="password"
               placeholder="********"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -84,30 +97,16 @@ function Login() {
           </div>
 
           {/* Mensajes */}
-          {error && <p className="login-error">{error}</p>}
-          {success && <p className="login-success">{success}</p>}
+          {error && <p className="register-error">{error}</p>}
+          {success && <p className="register-success">{success}</p>}
 
-          <button type="submit" className="login-btn" disabled={loading}>
-            {loading ? "Ingresando..." : "Iniciar Sesión"}
+          <button type="submit" className="register-btn" disabled={loading}>
+            {loading ? "Registrando..." : "Registrarse"}
           </button>
         </form>
-
-        <div className="extras">
-          <button className="forgot-password" type="button">
-            ¿Olvidaste tu contraseña?
-          </button>
-
-          <button
-            className="create-account"
-            type="button"
-            onClick={goToRegister}
-          >
-            Crear cuenta
-          </button>
-        </div>
       </div>
     </div>
   );
 }
 
-export default Login;
+export default Register;
