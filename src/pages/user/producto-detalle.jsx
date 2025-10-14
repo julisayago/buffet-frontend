@@ -1,12 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Navbar from "@components/navbar";
-import ProductCard from "@components/product-card.jsx";
+import ProductCard from "@components/product-card/product-card.jsx";
 import "@styles/producto-detalle.css";
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import Footer from "@components/footer";
-
-
 
 function ProductoDetalle() {
   const { id } = useParams();
@@ -50,7 +46,6 @@ function ProductoDetalle() {
 
   return (
     <>
-      <Navbar />
       <div className="detalle-wrapper">
         <div className="detalle-card">
           {/* Header con botón atrás */}
@@ -88,7 +83,6 @@ function ProductoDetalle() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }

@@ -15,7 +15,7 @@
   box-sizing: border-box;
   background-color: #fff;
   border-radius: 1.5rem;
-  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 
 .register-logo-container {
@@ -77,6 +77,15 @@
   background-color: #0056b3;
 }
 
+.register-error {
+  color: red;
+  margin: 5px 0;
+}
+
+.register-success {
+  color: green;
+  margin: 5px 0;
+}
 
 /* Tablet */
 @media (min-width: 48rem) {
