@@ -16,6 +16,8 @@ pnpm-debug.log*
 # Environment variables
 .env
 .env.*   # otros archivos de entorno
+.env.development
+.env.production
 
 # Archivos docker (hasta tener la versión productiva).
 Dockerfile
