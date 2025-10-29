@@ -24,8 +24,8 @@ export default function PedidoCrear() {
       setPedido={setPedido}
       onSubmit={handleSubmit}
       title="Crear Pedido"
-      productosDisponibles={[]} // cargar desde API si querés
-      usuariosDisponibles={[]} // cargar desde API si querés
+      productosDisponibles={[]} // cargar desde API 
+      usuariosDisponibles={[]} // cargar desde API
     />
   );
 }

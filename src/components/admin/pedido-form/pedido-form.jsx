@@ -15,9 +15,9 @@ export default function PedidoForm({
           Cliente:
           <select name="usuario" required>
             <option value="">Seleccionar</option>
-            {usuariosDisponibles.map((u) => (
-              <option key={u._id} value={u._id}>
-                {u.nombre} ({u.email})
+            {usuariosDisponibles.map((usuario) => (
+              <option key={usuario._id} value={usuario._id}>
+                {usuario.nombre} ({usuario.email})
               </option>
             ))}
           </select>
@@ -28,7 +28,7 @@ export default function PedidoForm({
           <select name="metodoPago" required>
             <option value="">Seleccionar</option>
             <option value="efectivo">Efectivo</option>
-            <option value="qr">Billetera virtual</option>
+            <option value="billetera-virtual">Billetera virtual</option>
           </select>
         </label>
 
@@ -54,9 +54,9 @@ export default function PedidoForm({
         <div className="admin-pedidos-item">
           <select name="producto" required>
             <option value="">Seleccionar producto</option>
-            {productosDisponibles.map((p) => (
-              <option key={p._id} value={p._id}>
-                {p.nombre}
+            {productosDisponibles.map((producto) => (
+              <option key={producto._id} value={producto._id}>
+                {producto.nombre}
               </option>
             ))}
           </select>
@@ -79,4 +79,3 @@ export default function PedidoForm({
     </div>
   );
 }
-

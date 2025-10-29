@@ -29,7 +29,7 @@ export default function PedidosAdmin() {
   const [pedidoAEliminar, setPedidoAEliminar] = useState(null);
 
   const confirmarEliminacion = () => {
-    setPedidos((prev) => prev.filter((p) => p.id !== pedidoAEliminar.id));
+    setPedidos((prev) => prev.filter((pedido) => pedido.id !== pedidoAEliminar.id));
     setPedidoAEliminar(null);
   };
 
@@ -64,25 +64,25 @@ export default function PedidosAdmin() {
             </tr>
           </thead>
           <tbody>
-            {pedidos.map((p) => (
-              <tr key={p.id}>
-                <td>{p.numeroPedido}</td>
-                <td>{p.usuario.nombre}</td>
-                <td>{p.usuario.email}</td>
-                <td>${p.total}</td>
-                <td>{p.estado}</td>
-                <td>{p.metodoPago}</td>
-                <td>{p.creado}</td>
+            {pedidos.map((pedido) => (
+              <tr key={pedido.id}>
+                <td>{pedido.numeroPedido}</td>
+                <td>{pedido.usuario.nombre}</td>
+                <td>{pedido.usuario.email}</td>
+                <td>${pedido.total}</td>
+                <td>{pedido.estado}</td>
+                <td>{pedido.metodoPago}</td>
+                <td>{pedido.creado}</td>
                 <td>
                   <button
                     className="admin-pedidos-boton editar"
-                    onClick={() => navigate(`/admin/pedidos/editar/${p.id}`)}
+                    onClick={() => navigate(`/admin/pedidos/editar/${pedido.id}`)}
                   >
                     <FaEdit />
                   </button>
                   <button
                     className="admin-pedidos-boton eliminar"
-                    onClick={() => setPedidoAEliminar(p)}
+                    onClick={() => setPedidoAEliminar(pedido)}
                   >
                     <FaTrash />
                   </button>

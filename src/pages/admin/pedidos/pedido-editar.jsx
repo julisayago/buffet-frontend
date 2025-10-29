@@ -13,17 +13,20 @@ export default function PedidoEditar() {
       {
         id: "1",
         numeroPedido: "PED0001",
-        usuario: "123", 
+        usuario: "123",
         metodoPago: "efectivo",
         estado: "pendiente",
         notas: "Entregar sin cebolla",
         items: [
-          { producto: "abc", cantidad: 2 }, 
+          { producto: "abc", cantidad: 2 },
         ],
       },
     ];
-    const p = pedidosMock.find((ped) => ped.id === id);
-    setPedido(p);
+
+    const pedidoEncontrado = pedidosMock.find(
+      (pedido) => pedido.id === id
+    );
+    setPedido(pedidoEncontrado);
   }, [id]);
 
   const handleSubmit = (e) => {
@@ -41,8 +44,7 @@ export default function PedidoEditar() {
       onSubmit={handleSubmit}
       title="Editar Pedido"
       productosDisponibles={[]}
-      usuariosDisponibles={[]} 
+      usuariosDisponibles={[]}
     />
   );
 }
-
