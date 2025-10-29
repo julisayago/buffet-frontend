@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "@styles/login.css";
+import "./login.css";
 import Logo from "@assets/logo-buffet.png";
 import { API_URL } from "@config/api";
 
-function Login() {
+export default function Login() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -110,4 +110,3 @@ function Login() {
   );
 }
 
-export default Login;
