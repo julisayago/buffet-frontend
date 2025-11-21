@@ -7,11 +7,11 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  height: 100vh;
-  overflow: hidden;
+  min-height: calc(100vh - 100px); 
   margin-top: 3.125rem;
   margin-bottom: 1rem;
   padding: 1rem 2rem;
+  overflow: visible;
 }
 
 .detalle-card {
@@ -26,7 +26,6 @@
   align-items: center;
 }
 
-/* Header */
 .detalle-header {
   display: flex;
   align-items: center;
@@ -44,7 +43,6 @@
   align-items: center;
 }
 
-/* Imagen */
 .detalle-img {
   width: 100%;
   height: 320px;
@@ -61,7 +59,6 @@
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.25);
 }
 
-/* Info producto */
 .detalle-info {
   display: flex;
   flex-direction: column;
@@ -70,7 +67,6 @@
   padding: 0 0.5rem;
 }
 
-/* Nombre */
 .detalle-nombre {
   font-size: 1.6rem !important;
   font-weight: 800;
@@ -91,21 +87,18 @@
   border-radius: 2px;
 }
 
-/* Descripción */
 .detalle-descripcion {
   font-size: 0.95rem !important;
   color: black;
   line-height: 1.7;
 }
 
-/* Separador */
 .detalle-info hr {
   width: 100%;
   border: none;
   border-top: 1px solid #ddd;
 }
 
-/* Precio */
 .detalle-precio {
   display: inline-block;
   font-weight: 700;
@@ -114,7 +107,6 @@
   text-shadow: none;
 }
 
-/* Cantidad + botón */
 .detalle-actions {
   display: flex;
   flex-direction: column;
@@ -151,7 +143,6 @@
   text-align: center;
 }
 
-/* Botón añadir */
 .detalle-btn-add {
   background-color: #01538D;
   color: #fff;
@@ -164,7 +155,7 @@
   transition: all 0.3s ease;
   width: 100%;
   letter-spacing: 0.4px !important;
-    border: 2px solid #01538D;
+  border: 2px solid #01538D;
 
 }
 
@@ -176,6 +167,12 @@
 
 /* Mobile */
 @media (max-width: 600px) {
+  .detalle-wrapper {
+    min-height: calc(89vh - 83px); 
+    overflow: visible;
+    margin-top: 3.4rem;
+  }
+   
   .detalle-card {
     background: none !important;
     box-shadow: none !important;
@@ -226,5 +223,30 @@
     font-size: 1.3rem;
     margin-top: 0;
   }
-}
 
+/* Tablet */
+@media (min-width: 601px) and (max-width: 1023px) {
+ .detalle-card {
+    max-width: 850px;
+    padding: 2.5rem;
+    background: rgba(255, 255, 255, 0.6);
+  }
+
+  .detalle-img {
+    height: 380px;
+  }
+
+  .detalle-nombre {
+    font-size: 1.8rem;
+  }
+
+  .detalle-descripcion {
+    font-size: 1rem;
+  }
+
+  .detalle-precio {
+    font-size: 1.3rem;
+    margin-top: 0;
+  }
+    
+}
