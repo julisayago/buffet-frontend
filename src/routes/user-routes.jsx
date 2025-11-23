@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "@userpages/home/home";
-import Register from "@userpages/registro/registro";
 import Contacto from "@userpages/contacto/contacto";
 import Productos from "@userpages/producto/productos";
 import ProductoDetalle from "@userpages/producto/producto-detalle";
@@ -20,7 +19,7 @@ export default function UserRoutes() {
       <Route path="producto/:id" element={<ProductoDetalle />} />
       <Route path="carrito" element={<Carrito />} />
       <Route path="pedidos" element={<Pedidos />} />
-      <Route path="detalle/:id" element={<DetallePedido />} />
+      <Route path="detalle/:id" element={<Detalle />} />
       <Route path="qr/:id" element={<QRPage />} />
     </Routes>
   );
