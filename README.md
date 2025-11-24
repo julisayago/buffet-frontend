@@ -3,15 +3,22 @@
 ## 📌 Descripción
 Repositorio del front-end para una web del buffet de la Universidad Nacional Guillermo Brown, desarrollado como trabajo final de la materia Prácticas Profesionales Supervisadas.
 El objetivo principal es permitir que los estudiantes realicen pedidos online, reduciendo tiempos de espera y mejorando la organización del servicio, incluyendo también facilidades en la gestión de pedidos para los administradores.
+
+---
+
 <p align="center">
   <img src="public/Mockup.png" alt="Mockup del sistema Buffet UNaB" width="800">
 </p>
+
+---
 
 ## 🚀 Tecnologías
 - **Frontend**: React + Vite + CSS
 - **Backend**: Node.js con Express
 - **Base de datos**: MySQL
 - **Control de versiones**: Git + GitHub
+
+---
 
 ## 👥 Integrantes
 - Diaz, Gonazalo
@@ -21,11 +28,14 @@ El objetivo principal es permitir que los estudiantes realicen pedidos online, r
 - Montenegro, Thiago
 - Sayago, Julieta
 
+---
 
 ## 🎯 Objetivos
 - Facilitar pedidos online de los estudiantes.
 - Reducir filas y tiempos de espera.
 - Mejorar la gestión del buffet.
+
+---
 
 ## ⭐ Características principales
 - Sistema de pedidos online para estudiantes.
@@ -68,12 +78,16 @@ El objetivo principal es permitir que los estudiantes realicen pedidos online, r
    ```
    Abrir en el navegador la URL que muestra Vite (por defecto http://localhost:5173).
 
+---
+
 ## 📌 Scripts útiles
 
 | Comando           | Descripción                                      |
 |-------------------|--------------------------------------------------|
 | `npm run dev`     | Inicia el servidor de desarrollo con Vite        |
 | `npm run build`   | Compila el proyecto para producción (`dist/`)    |
+
+---
 
 ## 📁 Estructura del proyecto
 
@@ -97,6 +111,8 @@ BUFFET-ECOMMERCE-UNIVERSIDAD/
 ├── package.json               # Metadatos y scripts del proyecto
 └── vite.config.js             # Configuración de Vite
  ```
+
+---
 
 ### 🧩 Dependencias principales
 
