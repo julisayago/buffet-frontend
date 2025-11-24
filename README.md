@@ -3,9 +3,8 @@
 ## 📌 Descripción
 Repositorio del front-end para una web del buffet de la Universidad Nacional Guillermo Brown, desarrollado como trabajo final de la materia Prácticas Profesionales Supervisadas.
 El objetivo principal es permitir que los estudiantes realicen pedidos online, reduciendo tiempos de espera y mejorando la organización del servicio, incluyendo también facilidades en la gestión de pedidos para los administradores.
-
 <p align="center">
-  <img src="public/Mockup.png" alt="Mockup del sistema Buffet UNaB" width="600">
+  <img src="public/Mockup.png" alt="Mockup del sistema Buffet UNaB" width="800">
 </p>
 
 ## 🚀 Tecnologías
