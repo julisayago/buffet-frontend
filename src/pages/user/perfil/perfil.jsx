@@ -2,25 +2,35 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { API_URL } from "@config/api";
 import "./perfil.css";
-import { AiOutlineArrowLeft } from "react-icons/ai";
+import { AiOutlineArrowLeft, AiOutlineEdit } from "react-icons/ai";
+import Loader from "@components/loader/loader";
 
 function Perfil() {
   const navigate = useNavigate();
+
   const [perfil, setPerfil] = useState({
     nombre: "",
     email: "",
     telefono: "",
     direccion: ""
   });
-  const [mensaje, setMensaje] = useState("");
-  const [error, setError] = useState("");
+
+  const [loading, setLoading] = useState(true);
+  const [editando, setEditando] = useState(false);
+  const [mensaje, setMensaje] = useState(""); 
 
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchPerfil = async () => {
+      if (!token) {
+        setMensaje("No hay token. Iniciá sesión nuevamente.");
+        setLoading(false);
+        return;
+      }
+
       try {
-        const res = await fetch(`${API_URL}/profile`, {
+        const res = await fetch(`${API_URL}/users/profile`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -30,14 +40,22 @@ function Perfil() {
 
         if (!res.ok) throw new Error(data.message || "Error al obtener perfil");
 
-        setPerfil(data.user);
+        const usuario = data.user || {};
+        setPerfil({
+          nombre: usuario.nombre || "",
+          email: usuario.email || "",
+          telefono: usuario.telefono || "",
+          direccion: usuario.direccion || ""
+        });
       } catch (err) {
-        setError(err.message);
+        setMensaje(err.message);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchPerfil();
-  }, []);
+  }, [token]);
 
   const handleChange = (e) => {
     setPerfil({ ...perfil, [e.target.name]: e.target.value });
@@ -45,7 +63,7 @@ function Perfil() {
 
   const handleGuardar = async () => {
     try {
-      const res = await fetch(`${API_URL}/profile`, {
+      const res = await fetch(`${API_URL}/users/profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -63,30 +81,60 @@ function Perfil() {
       if (!res.ok) throw new Error(data.message || "Error al actualizar perfil");
 
       setMensaje("Perfil actualizado exitosamente");
+      setEditando(false);
+
       setTimeout(() => setMensaje(""), 3000);
     } catch (err) {
-      setError(err.message);
+      setMensaje(err.message);
+      setTimeout(() => setMensaje(""), 3000);
     }
   };
 
+  const handleCancelar = () => {
+    setEditando(false);
+    setLoading(true);
+
+    fetch(`${API_URL}/users/profile`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const usuario = data.user || {};
+        setPerfil({
+          nombre: usuario.nombre || "",
+          email: usuario.email || "",
+          telefono: usuario.telefono || "",
+          direccion: usuario.direccion || ""
+        });
+      })
+      .catch((err) => {
+        setMensaje(err.message);
+        setTimeout(() => setMensaje(""), 3500);
+      })
+      .finally(() => setLoading(false));
+  };
+
+  if (loading) {
+    return <Loader text="Cargando perfil..." />;
+  }
+
   return (
     <div className="perfil-container">
-        <div className="perfil-header">
-          <button className="perfil-back" onClick={() => navigate(-1)}>
-            <AiOutlineArrowLeft size={20} />
-          </button>
-          <h2 className="perfil-titulo">Mi Cuenta</h2>
-        </div>
-        <div className="perfil-card">
-          <h3 className="perfil-subtitulo">Editar perfil</h3>
-          
+      <div className="perfil-header">
+        <button className="perfil-back" onClick={() => navigate(-1)}>
+          <AiOutlineArrowLeft size={20} />
+        </button>
+        <h2 className="perfil-titulo">Mi Cuenta</h2>
+      </div>
+
+      <div className="perfil-card">
+        {/* Título solo si se está editando */}
+        {editando && <h3 className="perfil-subtitulo">Editar perfil</h3>}
+
         <div className="perfil-bienvenida">
           <h3>¡Hola!</h3>
           <p>Desde aquí podés editar tu información personal y mantener tu cuenta actualizada.</p>
         </div>
-
-        {error && <p className="error">{error}</p>}
-        {mensaje && <p className="success">{mensaje}</p>}
 
         <div className="perfil-info">
           <div className="perfil-input-card">
@@ -97,6 +145,7 @@ function Perfil() {
               value={perfil.nombre}
               onChange={handleChange}
               placeholder="Tu nombre"
+              disabled={!editando}
             />
           </div>
 
@@ -119,6 +168,7 @@ function Perfil() {
               value={perfil.telefono || ""}
               onChange={handleChange}
               placeholder="Ej: 1123456789"
+              disabled={!editando}
             />
           </div>
 
@@ -130,19 +180,35 @@ function Perfil() {
               value={perfil.direccion || ""}
               onChange={handleChange}
               placeholder="Ej: Av. Siempre Viva 123"
+              disabled={!editando}
             />
           </div>
         </div>
 
         <div className="perfil-actions">
-          <button className="perfil-boton guardar" onClick={handleGuardar}>
-            Guardar
-          </button>
-          <button className="perfil-boton cancelar" onClick={() => navigate(-1)}>
-            Cancelar
-          </button>
+          {!editando && (
+            <button
+              className="perfil-boton guardar"
+              onClick={() => setEditando(true)}
+            >
+              <AiOutlineEdit style={{ marginRight: "5px" }} />
+              Editar
+            </button>
+          )}
+          {editando && (
+            <>
+              <button className="perfil-boton guardar" onClick={handleGuardar}>
+                Guardar
+              </button>
+              <button className="perfil-boton cancelar" onClick={handleCancelar}>
+                Cancelar
+              </button>
+            </>
+          )}
         </div>
       </div>
+
+      {mensaje && <div className="mensaje-perfil">{mensaje}</div>}
     </div>
   );
 }
