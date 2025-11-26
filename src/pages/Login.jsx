@@ -3,43 +3,60 @@ import { useNavigate } from "react-router-dom";
 import "./login.css";
 import Logo from "@assets/logo-buffet.png";
 import { API_URL } from "@config/api";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
-export default function Login() {
+function Login() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
-    setLoading(true);
 
     try {
-      const res = await fetch(`${API_URL}/auth/login`, {
+      const response = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await res.json();
+      const data = await response.json();
 
-      if (res.ok) {
-        setSuccess("Login exitoso");
-        localStorage.setItem("token", data.token);
-        setTimeout(() => navigate("/home"), 1000);
-      } else {
-        setError(data.message || "Credenciales inválidas");
+      if (!response.ok) {
+        if (data.errors && Array.isArray(data.errors)) {
+          const mensajes = data.errors
+            .map((err) => `${err.field}: ${err.message}`)
+            .join(" | ");
+          setError(mensajes);
+        } else {
+          setError(data.message || "Error al iniciar sesión");
+        }
+        return;
       }
-    } catch (err) {
-      console.error("Error fetch:", err.message);
-      setError("Error de conexión con el servidor");
-    } finally {
-      setLoading(false);
+
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("usuario", JSON.stringify(data.user));
+
+      setSuccess("Login exitoso");
+
+      setTimeout(() => {
+        if (data.user.role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/home");
+        }
+      }, 500);
+    } catch (error) {
+      console.error("Error:", error);
+      setError("No se pudo conectar con el servidor");
     }
   };
 
@@ -64,31 +81,45 @@ export default function Login() {
               id="email"
               name="email"
               placeholder="ejemplo@email.com"
+              required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
             />
           </div>
 
           <div className="input-group">
             <label htmlFor="password">Contraseña</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="********"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                name="password"
+                placeholder="********"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <AiOutlineEyeInvisible size={22} />
+                ) : (
+                  <AiOutlineEye size={22} />
+                )}
+              </button>
+            </div>
           </div>
 
-          {/* Mensajes */}
           {error && <p className="login-error">{error}</p>}
           {success && <p className="login-success">{success}</p>}
 
-          <button type="submit" className="login-btn" disabled={loading}>
-            {loading ? "Ingresando..." : "Iniciar Sesión"}
+          <button type="submit" className="login-btn">
+            Ingresar
           </button>
         </form>
 
@@ -96,7 +127,6 @@ export default function Login() {
           <button className="forgot-password" type="button">
             ¿Olvidaste tu contraseña?
           </button>
-
           <button
             className="create-account"
             type="button"
@@ -110,3 +140,4 @@ export default function Login() {
   );
 }
 
+export default Login;
