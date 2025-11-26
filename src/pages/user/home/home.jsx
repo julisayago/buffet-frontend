@@ -157,7 +157,7 @@ useEffect(() => {
         {/* Banners */}
         <section className="home-banners">
           <div className="banner-card">
-            <img src="/src/assets/home/card-image-1.png" alt="Promo del día" />
+            <img src="/home/card-image-1.png" alt="Promo del día" />
             <div className="banner-text">
               <h3>Pedí desde tu aula</h3>
               <p>Sin filas, sin esperas</p>
@@ -165,7 +165,7 @@ useEffect(() => {
           </div>
 
           <div className="banner-card">
-            <img src="/src/assets/home/card-image-2.png" alt="Desayuno" />
+            <img src="/home/card-image-2.png" alt="Desayuno" />
             <div className="banner-text">
               <h3>Un Desayuno Perfecto</h3>
               <p>Para tu mañana</p>
@@ -173,7 +173,7 @@ useEffect(() => {
           </div>
 
           <div className="banner-card">
-            <img src="/src/assets/home/card-image-3.png" alt="Snacks" />
+            <img src="/home/card-image-3.png" alt="Snacks" />
             <div className="banner-text">
               <h3>Promo Snacks</h3>
               <p>¡No te lo pierdas!</p>
@@ -181,7 +181,7 @@ useEffect(() => {
           </div>
 
           <div className="banner-card">
-            <img src="/src/assets/home/card-image-4.png" alt="Desayuno" />
+            <img src="/home/card-image-4.png" alt="Desayuno" />
             <div className="banner-text">
               <h3>Refresca tu día</h3>
               <p>Variedad de bebidas para elegir</p>
@@ -213,13 +213,13 @@ useEffect(() => {
 
           <div className="banner-slide active">
             <div className="banner-cafe">
-              <img src="/src/assets/banner-sack-bebida.png" alt="Banner Buffet" />
+              <img src="/home/banner-bebida.png" alt="Banner Buffet" />
             </div>
           </div>
 
           <div className="banner-slide">
             <div className="banner-cafe">
-              <img src="/src/assets/banner-caffe.png" alt="Caffe" />
+              <img src="/home/banner-caffe.png" alt="Caffe" />
               <div className="banner-cafe-text">
                 <h2>Promociones del Buffet</h2>
                 <p>Por compras superiores a $5.000 obtené un café gratis</p>
@@ -232,7 +232,7 @@ useEffect(() => {
 
           <div className="banner-slide">
             <div className="banner-cafe">
-              <img src="/src/assets/banner-sandwich.png" alt="Sandwich" />
+              <img src="/home/banner-sandwich.png" alt="Sandwich" />
               <div className="banner-cafe-text">
                 <h2>2x1 en Sándwich</h2>
                 <p>De 8:00 a 20:00 hs</p>
