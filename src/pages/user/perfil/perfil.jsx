@@ -12,7 +12,6 @@ function Perfil() {
     nombre: "",
     email: "",
     telefono: "",
-    direccion: "",
     current_password: "",
     new_password: ""
   });
@@ -45,7 +44,6 @@ function Perfil() {
           nombre: usuario.nombre || "",
           email: usuario.email || "",
           telefono: usuario.telefono || "",
-          direccion: usuario.direccion || "",
           current_password: "",
           new_password: ""
         });
@@ -68,7 +66,6 @@ function Perfil() {
       const body = {
         nombre: perfil.nombre,
         telefono: perfil.telefono,
-        direccion: perfil.direccion
       };
 
       // Si el usuario quiere cambiar la contraseña
@@ -114,7 +111,6 @@ function Perfil() {
           nombre: usuario.nombre || "",
           email: usuario.email || "",
           telefono: usuario.telefono || "",
-          direccion: usuario.direccion || "",
           current_password: "",
           new_password: ""
         });
@@ -177,18 +173,6 @@ function Perfil() {
               value={perfil.telefono || ""}
               onChange={handleChange}
               placeholder="Ej: 1123456789"
-              disabled={!editando}
-            />
-          </div>
-
-          <div className="perfil-input-card">
-            <label>Dirección</label>
-            <input
-              type="text"
-              name="direccion"
-              value={perfil.direccion || ""}
-              onChange={handleChange}
-              placeholder="Ej: Av. Siempre Viva 123"
               disabled={!editando}
             />
           </div>
