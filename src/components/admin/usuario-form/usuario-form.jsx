@@ -1,6 +1,6 @@
 import "./usuario-form.css";
 
-export default function UsuarioForm({ usuario, setUsuario, onSubmit, title }) {
+export default function UsuarioForm({ usuario, setUsuario, onSubmit, title, isCrear = false }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUsuario((prev) => ({ ...prev, [name]: value }));
@@ -64,16 +64,19 @@ export default function UsuarioForm({ usuario, setUsuario, onSubmit, title }) {
           </select>
         </label>
 
-        <label>
-          Contraseña:
-          <input
-            name="password"
-            type="password"
-            value={usuario.password || ""}
-            onChange={handleChange}
-            required
-          />
-        </label>
+        {/* Contraseña solo si es creación */}
+        {isCrear && (
+          <label>
+            Contraseña:
+            <input
+              name="password"
+              type="password"
+              value={usuario.password || ""}
+              onChange={handleChange}
+              required
+            />
+          </label>
+        )}
 
         <div className="admin-usuarios-form-acciones">
           <button type="submit">Guardar</button>
@@ -85,4 +88,3 @@ export default function UsuarioForm({ usuario, setUsuario, onSubmit, title }) {
     </div>
   );
 }
-

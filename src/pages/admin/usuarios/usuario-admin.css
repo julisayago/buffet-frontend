@@ -142,7 +142,41 @@
   background-color: #6c757d;
 }
 
-/* Tablet styles */
+/* Mobile */
+@media (max-width: 767px) {
+
+  .admin-usuarios-container {
+    padding: 10px;
+  }
+
+  .admin-usuarios-tabla-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .admin-usuarios-tabla {
+    width: 100%; 
+    font-size: 0.75rem;
+    border-collapse: collapse;
+  }
+
+  .admin-usuarios-tabla th,
+  .admin-usuarios-tabla td {
+    padding: 8px 6px;
+    white-space: nowrap; 
+    text-align: left;
+  }
+  /* Ocultar columnas menos importantes */
+  .admin-usuarios-tabla th:nth-child(3),
+  .admin-usuarios-tabla td:nth-child(3),
+  .admin-usuarios-tabla th:nth-child(4),
+  .admin-usuarios-tabla td:nth-child(4)
+  {
+    display: none;
+  }
+}
+
+/* Tablet */
 @media (min-width: 768px) and (max-width: 1023px) {
   .admin-usuarios-container {
     margin-top: 30px;
