@@ -45,7 +45,6 @@ export default function UsuarioEditar() {
         nombre: usuario.nombre,
         email: usuario.email,
         telefono: usuario.telefono,
-        direccion: usuario.direccion,
         role: usuario.role,
       };
 

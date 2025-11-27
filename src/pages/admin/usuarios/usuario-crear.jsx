@@ -9,7 +9,6 @@ export default function UsuarioCrear() {
     nombre: "",
     email: "",
     telefono: "",
-    direccion: "",
     role: "",
     password: "", 
   });

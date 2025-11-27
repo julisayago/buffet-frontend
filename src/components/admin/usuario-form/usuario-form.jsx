@@ -40,16 +40,6 @@ export default function UsuarioForm({ usuario, setUsuario, onSubmit, title, isCr
             onChange={handleChange}
           />
         </label>
-
-        <label>
-          Dirección:
-          <input
-            name="direccion"
-            value={usuario.direccion || ""}
-            onChange={handleChange}
-          />
-        </label>
-
         <label>
           Rol:
           <select

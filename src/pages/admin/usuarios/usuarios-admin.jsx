@@ -88,7 +88,6 @@ export default function UsuariosAdmin() {
                 <th>Nombre</th>
                 <th>Email</th>
                 <th>Teléfono</th>
-                <th>Dirección</th>
                 <th>Rol</th>
                 <th>Acciones</th>
               </tr>
@@ -99,7 +98,6 @@ export default function UsuariosAdmin() {
                   <td>{usuario.nombre}</td>
                   <td>{usuario.email}</td>
                   <td>{usuario.telefono}</td>
-                  <td>{usuario.direccion}</td>
                   <td>{usuario.role}</td>
                   <td>
                     <button
