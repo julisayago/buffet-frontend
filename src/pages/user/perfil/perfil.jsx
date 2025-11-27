@@ -12,7 +12,9 @@ function Perfil() {
     nombre: "",
     email: "",
     telefono: "",
-    direccion: ""
+    direccion: "",
+    current_password: "",
+    new_password: ""
   });
 
   const [loading, setLoading] = useState(true);
@@ -31,9 +33,7 @@ function Perfil() {
 
       try {
         const res = await fetch(`${API_URL}/users/profile`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+          headers: { Authorization: `Bearer ${token}` }
         });
 
         const data = await res.json();
@@ -45,7 +45,9 @@ function Perfil() {
           nombre: usuario.nombre || "",
           email: usuario.email || "",
           telefono: usuario.telefono || "",
-          direccion: usuario.direccion || ""
+          direccion: usuario.direccion || "",
+          current_password: "",
+          new_password: ""
         });
       } catch (err) {
         setMensaje(err.message);
@@ -63,25 +65,33 @@ function Perfil() {
 
   const handleGuardar = async () => {
     try {
+      const body = {
+        nombre: perfil.nombre,
+        telefono: perfil.telefono,
+        direccion: perfil.direccion
+      };
+
+      // Si el usuario quiere cambiar la contraseña
+      if (perfil.new_password) {
+        body.current_password = perfil.current_password;
+        body.new_password = perfil.new_password;
+      }
+
       const res = await fetch(`${API_URL}/users/profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({
-          nombre: perfil.nombre,
-          telefono: perfil.telefono,
-          direccion: perfil.direccion
-        })
+        body: JSON.stringify(body)
       });
 
       const data = await res.json();
-
       if (!res.ok) throw new Error(data.message || "Error al actualizar perfil");
 
-      setMensaje("Perfil actualizado exitosamente");
+      setMensaje(perfil.new_password ? "Perfil y contraseña actualizados exitosamente" : "Perfil actualizado exitosamente");
       setEditando(false);
+      setPerfil({ ...perfil, current_password: "", new_password: "" });
 
       setTimeout(() => setMensaje(""), 3000);
     } catch (err) {
@@ -104,7 +114,9 @@ function Perfil() {
           nombre: usuario.nombre || "",
           email: usuario.email || "",
           telefono: usuario.telefono || "",
-          direccion: usuario.direccion || ""
+          direccion: usuario.direccion || "",
+          current_password: "",
+          new_password: ""
         });
       })
       .catch((err) => {
@@ -114,9 +126,7 @@ function Perfil() {
       .finally(() => setLoading(false));
   };
 
-  if (loading) {
-    return <Loader text="Cargando perfil..." />;
-  }
+  if (loading) return <Loader text="Cargando perfil..." />;
 
   return (
     <div className="perfil-container">
@@ -128,7 +138,6 @@ function Perfil() {
       </div>
 
       <div className="perfil-card">
-        {/* Título solo si se está editando */}
         {editando && <h3 className="perfil-subtitulo">Editar perfil</h3>}
 
         <div className="perfil-bienvenida">
@@ -183,6 +192,33 @@ function Perfil() {
               disabled={!editando}
             />
           </div>
+
+          {/* Inputs de contraseña */}
+          {editando && (
+            <>
+              <div className="perfil-input-card">
+                <label>Contraseña actual</label>
+                <input
+                  type="password"
+                  name="current_password"
+                  value={perfil.current_password || ""}
+                  onChange={handleChange}
+                  placeholder="Ingresa tu contraseña actual"
+                />
+              </div>
+
+              <div className="perfil-input-card">
+                <label>Nueva contraseña</label>
+                <input
+                  type="password"
+                  name="new_password"
+                  value={perfil.new_password || ""}
+                  onChange={handleChange}
+                  placeholder="Dejar vacío si no quieres cambiarla"
+                />
+              </div>
+            </>
+          )}
         </div>
 
         <div className="perfil-actions">
