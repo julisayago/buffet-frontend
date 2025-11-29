@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { API_URL } from "@config/api";
 import "./perfil.css";
-import { AiOutlineArrowLeft } from "react-icons/ai";
+import { AiOutlineArrowLeft, AiOutlineUser, AiOutlineMail, AiOutlinePhone, AiOutlineHome } from "react-icons/ai";
 
 function Perfil() {
   const navigate = useNavigate();
@@ -91,46 +91,62 @@ function Perfil() {
         <div className="perfil-info">
           <div className="perfil-input-card">
             <label>Nombre</label>
-            <input
-              type="text"
-              name="nombre"
-              value={perfil.nombre}
-              onChange={handleChange}
-              placeholder="Tu nombre"
-            />
+            <div className="perfil-input-wrapper">
+              <AiOutlineUser className="perfil-icon" />
+              <input
+                type="text"
+                name="nombre"
+                value={perfil.nombre}
+                onChange={handleChange}
+                placeholder="Tu nombre"
+                className="perfil-input"
+              />
+            </div>
           </div>
 
           <div className="perfil-input-card">
             <label>Correo electrónico</label>
-            <input
-              type="email"
-              name="email"
-              value={perfil.email}
-              disabled
-              placeholder="correo@ejemplo.com"
-            />
+            <div className="perfil-input-wrapper">
+              <AiOutlineMail className="perfil-icon" />
+              <input
+                type="email"
+                name="email"
+                value={perfil.email}
+                disabled
+                placeholder="correo@ejemplo.com"
+                className="perfil-input"
+              />
+            </div>
           </div>
 
           <div className="perfil-input-card">
             <label>Teléfono</label>
-            <input
-              type="text"
-              name="telefono"
-              value={perfil.telefono || ""}
-              onChange={handleChange}
-              placeholder="Ej: 1123456789"
-            />
+            <div className="perfil-input-wrapper">
+              <AiOutlinePhone className="perfil-icon" />
+              <input
+                type="text"
+                name="telefono"
+                value={perfil.telefono || ""}
+                onChange={handleChange}
+                placeholder="Ej: 1123456789"
+                className="perfil-input"
+              />
+            </div>
           </div>
 
           <div className="perfil-input-card">
             <label>Dirección</label>
-            <input
-              type="text"
-              name="direccion"
-              value={perfil.direccion || ""}
-              onChange={handleChange}
-              placeholder="Ej: Av. Siempre Viva 123"
-            />
+            <div className="perfil-input-wrapper">
+              <AiOutlineHome className="perfil-icon" />
+              <input
+                type="text"
+                name="direccion"
+                value={perfil.direccion || ""}
+                onChange={handleChange}
+                placeholder="Ej: Av. Siempre Viva 123"
+                className="perfil-input"
+              />
+            </div>
           </div>
         </div>
 
