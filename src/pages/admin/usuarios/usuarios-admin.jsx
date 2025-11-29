@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Loader from "@components/loader/loader";
+import { toast } from "react-toastify"; 
 import "./usuario-admin.css";
 import { API_URL } from "@config/api";
 
@@ -43,7 +44,7 @@ export default function UsuariosAdmin() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`${API_URL}/${usuarioAEliminar.id}`, {
+      const res = await fetch(`${API_URL}/users/${usuarioAEliminar.id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -51,13 +52,14 @@ export default function UsuariosAdmin() {
 
       if (data.success) {
         setUsuarios(prev => prev.filter(u => u.id !== usuarioAEliminar.id));
+        toast.success(`Usuario ${usuarioAEliminar.nombre} eliminado correctamente`); 
         setUsuarioAEliminar(null);
       } else {
-        alert(data.message || "No se pudo eliminar el usuario");
+        toast.error(data.message || "No se pudo eliminar el usuario"); 
       }
     } catch (err) {
       console.error(err);
-      alert("Error conectando con el servidor");
+      toast.error("Error conectando con el servidor");
     }
   };
 

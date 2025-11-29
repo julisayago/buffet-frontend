@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UsuarioForm from "@admincomponents/usuario-form/usuario-form";
 import { API_URL } from "@config/api";
+import { toast } from "react-toastify"; 
 
 export default function UsuarioCrear() {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ export default function UsuarioCrear() {
     email: "",
     telefono: "",
     role: "",
-    password: "", 
+    password: "",
   });
 
   const handleSubmit = async (e) => {
@@ -20,11 +21,11 @@ export default function UsuarioCrear() {
       const token = localStorage.getItem("token");
 
       if (!usuario.password || usuario.password.length < 6) {
-        alert("La contraseña debe tener al menos 6 caracteres.");
+        toast.error("La contraseña debe tener al menos 6 caracteres."); 
         return;
       }
 
-      await fetch(`${API_URL}/users`, {
+      const res = await fetch(`${API_URL}/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,10 +34,15 @@ export default function UsuarioCrear() {
         body: JSON.stringify(usuario),
       });
 
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message || "Error al crear usuario");
+
+      toast.success("Usuario creado correctamente"); 
       navigate("/admin/usuarios");
     } catch (error) {
       console.error("Error al crear usuario:", error);
-      alert("Ocurrió un error al crear el usuario.");
+      toast.error("Ocurrió un error al crear el usuario: " + error.message); 
     }
   };
 
