@@ -10,8 +10,9 @@
 
 .dashboard-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: 1fr;
   gap: 16px;
+  width: 60%;
 }
 
 .stat-card {
@@ -40,14 +41,12 @@
   font-weight: bold;
 }
 
-.status-list,
-.top-products-list {
+.status-list {
   list-style: none;
   padding: 0;
 }
 
-.status-list li,
-.top-products-list li {
+.status-list li {
   padding: 1px 0;
   border-bottom: 1px solid #eee;
 }
@@ -92,7 +91,25 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.chart-container {
+  width: 80%;
+  height: 260px;
+  background: #fff;
+  border-radius: 16px;
+  margin: 0 auto;
+}
+
+@media (max-width: 767px) {
+
+  .recent-orders-table th:nth-child(2),
+  .recent-orders-table td:nth-child(2) {
+    display: none;
+  }
 }
 
 /* Tablet styles */
@@ -103,6 +120,13 @@
 
   .dashboard-title {
     font-size: 1.8rem;
+  }
+
+  .dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    width: 100%;
   }
 }
 
@@ -126,5 +150,12 @@
   .dashboard-left {
     display: flex;
     flex-direction: column;
+  }
+
+  .dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    width: 100%;
   }
 }

@@ -1,70 +1,63 @@
 import { useEffect, useState } from "react";
-import "./Dashboard.css";
+import "./dashboard.css";
+import Loader from "@components/loader/loader";
+import { API_URL } from "@config/api";
 
-export default  function Dashboard() {
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+
+export default function Dashboard() {
   const [stats, setStats] = useState(null);
   const [ordersByStatus, setOrdersByStatus] = useState([]);
-  const [topProducts, setTopProducts] = useState([]);
   const [recentOrders, setRecentOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simular datos como si vinieran del backend
-    const simulatedStats = {
-      totalOrders: 128,
-      totalProducts: 42,
-      totalUsers: 87,
-      todayOrders: 6,
-      todayRevenue: 15400.75,
-    };
+    const token = localStorage.getItem("token");
 
-    const simulatedOrdersByStatus = [
-      { _id: "Pendiente", count: 5 },
-      { _id: "En preparación", count: 3 },
-      { _id: "Entregado", count: 110 },
-      { _id: "Cancelado", count: 10 },
-    ];
+    fetch(`${API_URL}/admin/dashboard`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          const est = data.data.estadisticas;
 
-    const simulatedTopProducts = [
-      { _id: "1", nombre: "Hamburguesa Clásica", totalVendido: 120 },
-      { _id: "2", nombre: "Empanada de Carne", totalVendido: 95 },
-      { _id: "3", nombre: "Pizza Muzarella", totalVendido: 80 },
-      { _id: "4", nombre: "Tarta de Verdura", totalVendido: 60 },
-      { _id: "5", nombre: "Gaseosa 500ml", totalVendido: 55 },
-    ];
+          setStats({
+            totalOrders: est.total_pedidos,
+            totalProducts: est.total_productos,
+            totalUsers: est.total_usuarios,
+          });
 
-    const simulatedRecentOrders = [
-      {
-        _id: "a1",
-        usuario: { nombre: "Lucía Gómez", email: "lucia@example.com" },
-        createdAt: new Date(),
-      },
-      {
-        _id: "a2",
-        usuario: { nombre: "Martín Pérez", email: "martin@example.com" },
-        createdAt: new Date(),
-      },
-      {
-        _id: "a3",
-        usuario: { nombre: "Sofía Díaz", email: "sofia@example.com" },
-        createdAt: new Date(),
-      },
-    ];
+          setOrdersByStatus([
+            { nombre: "Pendientes", count: est.pedidos_pendientes },
+            { nombre: "Entregados", count: est.pedidos_entregados },
+          ]);
 
-    setTimeout(() => {
-      setStats(simulatedStats);
-      setOrdersByStatus(simulatedOrdersByStatus);
-      setTopProducts(simulatedTopProducts);
-      setRecentOrders(simulatedRecentOrders);
-    }, 500);
+          setRecentOrders(
+            data.data.pedidos_recientes.map((o) => ({
+              id: o.id,
+              total: o.total,
+              estado: o.estado,
+              fecha: o.fecha,
+              usuario: o.usuario || { nombre: "Cliente", email: "N/A" },
+            }))
+          );
+        }
+      })
+      .catch((err) => console.error("Error al cargar dashboard:", err))
+      .finally(() => setLoading(false));
   }, []);
 
-  if (!stats) {
-    return (
-      <div className="dashboard-loading">
-        <p>Cargando panel de administración...</p>
-      </div>
-    );
-  }
+  if (loading) return <Loader text="Cargando panel..." />;
+
+  const COLORS = ["#01538D", "#4cbcd0ff"];
 
   return (
     <div className="dashboard-container">
@@ -75,21 +68,15 @@ export default  function Dashboard() {
           <h3>Pedidos totales</h3>
           <p>{stats.totalOrders}</p>
         </div>
+
         <div className="stat-card">
           <h3>Productos</h3>
           <p>{stats.totalProducts}</p>
         </div>
+
         <div className="stat-card">
           <h3>Usuarios</h3>
           <p>{stats.totalUsers}</p>
-        </div>
-        <div className="stat-card">
-          <h3>Pedidos hoy</h3>
-          <p>{stats.todayOrders}</p>
-        </div>
-        <div className="stat-card">
-          <h3>Ingresos hoy</h3>
-          <p>${stats.todayRevenue.toFixed(2)}</p>
         </div>
       </div>
 
@@ -97,25 +84,36 @@ export default  function Dashboard() {
         <div className="dashboard-left">
           <div className="dashboard-section">
             <h2>Pedidos por estado</h2>
-            <ul className="status-list">
-              {ordersByStatus.map((statusItem) => (
-                <li key={statusItem._id}>
-                  <strong>{statusItem._id}:</strong> {statusItem.count}
-                </li>
-              ))}
-            </ul>
-          </div>
 
-          <div className="dashboard-section">
-            <h2>Top productos vendidos</h2>
-            <ul className="top-products-list">
-              {topProducts.map((product) => (
-                <li key={product._id}>
-                  <strong>{product.nombre}</strong> — {product.totalVendido}{" "}
-                  unidades
-                </li>
-              ))}
-            </ul>
+            <div className="chart-container">
+              <ResponsiveContainer>
+                <PieChart>
+                  <Pie
+                    data={ordersByStatus}
+                    dataKey="count"
+                    nameKey="nombre"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={85}
+                    stroke="#fff"
+                    strokeWidth={2}
+                    label
+                  >
+                    {ordersByStatus.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index]}
+                        style={{
+                          filter: "drop-shadow(0 2px 2px rgba(0,0,0,0.15))",
+                        }}
+                      />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </div>
 
@@ -131,10 +129,10 @@ export default  function Dashboard() {
             </thead>
             <tbody>
               {recentOrders.map((order) => (
-                <tr key={order._id}>
+                <tr key={order.id}>
                   <td>{order.usuario.nombre}</td>
                   <td>{order.usuario.email}</td>
-                  <td>{new Date(order.createdAt).toLocaleDateString()}</td>
+                  <td>{new Date(order.fecha).toLocaleDateString()}</td>
                 </tr>
               ))}
             </tbody>
@@ -144,4 +142,3 @@ export default  function Dashboard() {
     </div>
   );
 }
-
