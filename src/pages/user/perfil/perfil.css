@@ -2,7 +2,6 @@
   font-family: 'Poppins', sans-serif;
   background-color: white;
   min-height: calc(100vh - 16px);
-  /* 100% alto de pantalla menos el footer */
   margin-top: 3.125rem;
   padding: 1rem 2rem;
   box-sizing: border-box;
@@ -39,28 +38,72 @@
   font-weight: 600;
 }
 
-.perfil-input-card {
-  background: #dcebf5;
-  border-radius: 15px;
-  padding: 1.2rem;
+.perfil-input-wrapper {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  margin-bottom: 1rem;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  padding: 10px 14px;
+  border-radius: 14px;
+}
+
+.perfil-icon {
+  position: absolute;
+  left: 27px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.25rem;
+  color: #01538D;
+  pointer-events: none;
+}
+
+.perfil-input {
+  width: 100%;
+  padding-left: 2.8rem !important;
+  background: #dcebf5 !important;
+  border-radius: 28px !important;
+  border: 1.5px solid #b8cde0;
+  box-sizing: border-box;
+}
+
+.perfil-input-card {
+  position: relative;
+}
+
+.perfil-input-card input {
+  width: 100%;
+  background: #dcebf5 !important;        
+  border: 1.5px solid #b8cde0;
+  border-radius: 18px !important;
+  padding: 0.72rem 1rem 0.72rem 2.8rem !important;
+  font-size: 1rem;
+  padding-left: 2.9rem !important;
+  outline: none;
+  color: #000;
+  box-sizing: border-box;
+  transition: box-shadow .18s, border-color .18s;
+}
+
+.perfil-input-card input::placeholder {
+  color: #555;
+}
+
+.perfil-input-card input:focus {
+  background: #e7f2ff !important;
+  box-shadow: 0 6px 18px rgba(3, 22, 33, 0.35),
+              0 0 20px rgba(0, 200, 230, 0.06) inset;
+  border-color: rgba(0, 90, 190, 0.65);
+}
+
+.perfil-input-card input:not(:placeholder-shown) {
+  background: #E9F3FF !important;
 }
 
 .perfil-input-card label {
   font-size: 0.9rem;
   font-weight: 600;
   color: black;
-}
-
-.perfil-input-card input {
-  padding: 10px;
-  border: none;
-  border-radius: 30px;
-  outline: none;
-  font-size: 1rem;
 }
 
 .perfil-actions {
@@ -104,6 +147,16 @@
   background: #dcebf5;
 }
 
+.error {
+  color: red;
+  margin: 5px 0;
+}
+
+.success {
+  color: green;
+  margin: 5px 0;
+}
+
 /* Mobile */
 @media (max-width: 600px) {
   .perfil-card {
@@ -128,15 +181,9 @@
     font-weight: 600;
     color: #01538D;
     margin-bottom: 2rem;
-    border-bottom: 3px solid #dcebf5;
+    border-bottom: 3px solid #1e7dac;
     padding-bottom: 0.5rem;
     }
-
-  .perfil-input-card {
-    background: none;
-    padding: 0;
-    margin-bottom: 1rem;
-  }
 
   .perfil-input-card label {
     font-weight: 600;
@@ -146,19 +193,19 @@
   }
 
   .perfil-input-card input {
-    width: 90%;
-    background: #dcebf5;
-    border: none;
-    border-radius: 14px;
-    font-size: 0.9rem;
-    padding: 12px;
-    outline: none;
-  }
+    width: 100%;
+    background: #dcebf5 !important;
+    border-radius: 20px;
+    padding: 12px 12px 12px 2.8rem !important;
+    border: 1px solid #b8cde0;
+    font-size: 1.0rem;
+    padding-left: 2.7rem !important;
+}
 
   .perfil-actions {
     flex-direction: column;
     gap: 1rem;
-    margin-top: 1.5rem;
+    margin-top: 1.3rem;
   }
 
   .perfil-boton {
@@ -177,7 +224,7 @@
 @media (min-width: 1024px) {
   .perfil-container {
     min-height: 100vh;
-    padding: 7rem 4rem 3rem;
+    padding: 6.8rem 1rem 3rem;
     display: flex;
     justify-content: flex-end; 
     align-items: flex-start;
@@ -185,8 +232,8 @@
 
   .perfil-bienvenida {
     position: absolute;
-    top: 16rem;
-    left: 6rem;
+    top: 19rem;
+    left: 5rem;
     width: 340px;
     font-size: 1.8rem;
     line-height: 1.8;
@@ -201,7 +248,7 @@
     border: 2px solid #2179b4;
     box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
     border-radius: 20px;
-    max-width: 900px; 
+    max-width: 800px; 
     width: 100%;
     padding: 3rem;
     margin-right: 2rem; 
@@ -212,7 +259,7 @@
     font-weight: 600;
     color: #01538D;
     margin-bottom: 3rem;
-    border-bottom: 3px solid #dcebf5;
+    border-bottom: 3px solid #1e7dac;
     padding-bottom: 0.5rem;
   }
 
@@ -234,27 +281,21 @@
     gap: 1.5rem;
   }
 
-  .perfil-input-card {
-    background: none;
-    padding: 0;
-    margin: 0;
-  }
-
   .perfil-input-card label {
     font-size: 1.2rem;
     font-weight: 600;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.1rem;
     display: block;
   }
 
-  .perfil-input-card input {
-    width: 96%;
-    background: #dcebf5;
-    border: none;
-    border-radius: 14px;
+   .perfil-input-card input {
+    width: 100%;
+    background: #dcebf5 !important;
+    border-radius: 18px;
+    padding: 14px 18px 14px 2.8rem !important;
+    border: 1px solid #b8cde0;
     font-size: 1.1rem;
-    padding: 14px 18px;
-    outline: none;
+    padding-left: 2.7rem !important;
   }
 
   .perfil-actions {
@@ -320,7 +361,7 @@
     font-weight: 600;
     color: #01538D;
     margin-bottom: 2rem;
-    border-bottom: 3px solid #dcebf5;
+    border-bottom: 3px solid #1e7dac;
     padding-bottom: 0.5rem;
   }
 
@@ -340,20 +381,20 @@
   }
 
   .perfil-input-card input {
-    width: 94%;
-    background: #dcebf5;
-    border: none;
-    border-radius: 14px;
-    font-size: 1.05rem;
-    padding: 12px 16px;
-    outline: none;
+    width: 100%;
+    background: #dcebf5 !important;
+    border-radius: 18px;
+    padding: 14px 18px 14px 2.8rem !important;
+    border: 1px solid #b8cde0;
+    font-size: 1.1rem;
+    padding-left: 2.7rem !important;
   }
 
   .perfil-actions {
     flex-direction: row;
     justify-content: center;
     gap: 1rem;
-    margin-top: 1.5rem;
+    margin-top: 0.6rem;
   }
 
   .perfil-boton {
