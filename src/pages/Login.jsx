@@ -113,9 +113,6 @@ export default function Login() {
             </form>
 
             <div className="lg-extras">
-              <button className="lg-link-btn" type="button">
-                ¿Olvidaste tu contraseña?
-              </button>
               <button className="lg-create-account" type="button" onClick={goToRegister}>
                 Crear cuenta
               </button>

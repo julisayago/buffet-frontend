@@ -218,13 +218,7 @@
   align-items:center;
   text-align:center;
 }
-.lg-link-btn{
-  background:none;
-  border:none;
-  color: #000000;
-  font-weight:600;
-  cursor:pointer;
-}
+
 .lg-create-account{
   background:none;
   border:none;
@@ -248,8 +242,10 @@
 }
 
 .password-wrapper input {
-  width: 100%;
-  padding-right: 45px;
+  width: 100% !important;   
+  padding-left: 2.8rem;     
+  padding-right: 45px;      
+  box-sizing: border-box;   
 }
 
 .toggle-password {
