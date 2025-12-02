@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 import Logo from "@assets/logo-buffet.png";
+import { AiOutlineUser, AiOutlineLock, AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { API_URL } from "@config/api";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
-function Login() {
+export default function Login() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -13,131 +13,128 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
+    setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/auth/login`, {
+      const res = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json();
+      const data = await res.json();
 
-      if (!response.ok) {
-        if (data.errors && Array.isArray(data.errors)) {
-          const mensajes = data.errors
-            .map((err) => `${err.field}: ${err.message}`)
-            .join(" | ");
-          setError(mensajes);
-        } else {
-          setError(data.message || "Error al iniciar sesión");
-        }
-        return;
+      if (res.ok) {
+        setSuccess("Login exitoso");
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("usuario", JSON.stringify(data.user));
+        setTimeout(() => {
+          if (data.user.role === "admin") {
+            navigate("/admin");
+          } else {
+            navigate("/home");
+          }
+        }, 500);
+      } else {
+        setError(data.message || "Credenciales inválidas");
       }
-
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("usuario", JSON.stringify(data.user));
-
-      setSuccess("Login exitoso");
-
-      setTimeout(() => {
-        if (data.user.role === "admin") {
-          navigate("/admin");
-        } else {
-          navigate("/home");
-        }
-      }, 500);
-    } catch (error) {
-      console.error("Error:", error);
-      setError("No se pudo conectar con el servidor");
+    } catch (err) {
+      console.error("Error fetch:", err.message);
+      setError("Error de conexión con el servidor");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const goToRegister = () => {
-    navigate("/register");
-  };
+  const goToRegister = () => navigate("/register");
 
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <div className="login-logo-container">
-          <img src={Logo} alt="Logo buffet UNaB" className="login-logo" />
-        </div>
+    <div className="lg-auth-outer">
+      <div className="lg-auth-card lg-login-layout">
+        {/* PANEL FORM */}
+        <div className="lg-panel lg-panel-left">
+          <div className="lg-form-wrapper">
+            <div className="lg-logo-box">
+              <img src={Logo} alt="Logo buffet UNaB" className="lg-buffet-logo" />
+            </div>
 
-        <h4 className="login-title">Iniciar Sesión</h4>
+            <h4 className="lg-form-title">Iniciar Sesión</h4>
 
-        <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="email">Correo electrónico</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="ejemplo@email.com"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
+            <form onSubmit={handleSubmit} className="lg-auth-form">
+              <div className="lg-field">
+                <label htmlFor="email">Correo electrónico</label>
+                <div className="lg-input-icon">
+                  <AiOutlineUser className="lg-icon" />
+                  <input
+                    type="email"
+                    id="email"
+                    placeholder="ejemplo@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
 
-          <div className="input-group">
-            <label htmlFor="password">Contraseña</label>
+              <div className="lg-field">
+                <label htmlFor="password">Contraseña</label>
+                <div className="lg-input-icon password-wrapper">
+                  <AiOutlineLock className="lg-icon" />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    placeholder="********"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="toggle-password"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <AiOutlineEyeInvisible size={22} /> : <AiOutlineEye size={22} />}
+                  </button>
+                </div>
+              </div>
 
-            <div className="password-wrapper">
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                name="password"
-                placeholder="********"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              {error && <p className="login-error">{error}</p>}
+              {success && <p className="login-success">{success}</p>}
 
-              <button
-                type="button"
-                className="toggle-password"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? (
-                  <AiOutlineEyeInvisible size={22} />
-                ) : (
-                  <AiOutlineEye size={22} />
-                )}
+              <button type="submit" className="lg-primary-btn" disabled={loading}>
+                {loading ? "Ingresando..." : "Iniciar Sesión"}
+              </button>
+            </form>
+
+            <div className="lg-extras">
+              <button className="lg-link-btn" type="button">
+                ¿Olvidaste tu contraseña?
+              </button>
+              <button className="lg-create-account" type="button" onClick={goToRegister}>
+                Crear cuenta
               </button>
             </div>
           </div>
+        </div>
 
-          {error && <p className="login-error">{error}</p>}
-          {success && <p className="login-success">{success}</p>}
-
-          <button type="submit" className="login-btn">
-            Ingresar
-          </button>
-        </form>
-
-        <div className="extras">
-          <button className="forgot-password" type="button">
-            ¿Olvidaste tu contraseña?
-          </button>
-          <button
-            className="create-account"
-            type="button"
-            onClick={goToRegister}
-          >
-            Crear cuenta
-          </button>
+        {/* PANEL WELCOME */}
+        <div className="lg-panel lg-panel-right">
+          <div className="lg-welcome-box">
+            <h3 className="lg-welcome-title">¡BIENVENIDO/A DE NUEVO!</h3>
+            <p className="lg-welcome-text">
+              Accede a tu cuenta para pedir, ver el menú y gestionar tus órdenes.
+              <br />
+              Disfruta de descuentos especiales para estudiantes.
+            </p>
+          </div>
         </div>
       </div>
     </div>
   );
 }
-
-export default Login;
