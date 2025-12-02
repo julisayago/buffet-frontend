@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 import Logo from "@assets/logo-buffet.png";
+import { AiOutlineUser, AiOutlineLock } from "react-icons/ai";
 import { API_URL } from "@config/api";
 
 export default function Login() {
@@ -48,65 +49,89 @@ export default function Login() {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <div className="login-logo-container">
-          <img src={Logo} alt="Logo buffet UNaB" className="login-logo" />
+    <div className="lg-auth-outer">
+      <div className="lg-auth-card lg-login-layout">
+        {/* PANEL FORM */}
+        <div className="lg-panel lg-panel-left">
+          <div className="lg-form-wrapper">
+            <div className="lg-logo-box">
+              <img src={Logo} alt="Logo buffet UNaB" className="lg-buffet-logo" />
+            </div>
+
+            <h4 className="lg-form-title">Iniciar Sesión</h4>
+
+            <form onSubmit={handleSubmit} className="lg-auth-form">
+              <div className="lg-field">
+                <label htmlFor="email">Correo electrónico</label>
+                <div className="lg-input-icon">
+                  <AiOutlineUser className="lg-icon" />
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="ejemplo@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="lg-field">
+                <label htmlFor="password">Contraseña</label>
+                <div className="lg-input-icon">
+                  <AiOutlineLock className="lg-icon" />
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="********"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Mensajes */}
+              {error && <p className="login-error">{error}</p>}
+              {success && <p className="login-success">{success}</p>}
+
+              <button type="submit" className="lg-primary-btn" disabled={loading}>
+                {loading ? "Ingresando..." : "Iniciar Sesión"}
+              </button>
+            </form>
+
+            <div className="lg-extras">
+              <button className="lg-link-btn" type="button">
+                ¿Olvidaste tu contraseña?
+              </button>
+
+              <button
+                className="lg-create-account"
+                type="button"
+                onClick={goToRegister}
+              >
+                Crear cuenta
+              </button>
+            </div>
+          </div>
         </div>
 
-        <h4 className="login-title">Iniciar Sesión</h4>
-
-        <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="email">Correo electrónico</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="ejemplo@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+        {/* PANEL WELCOME */}
+        <div className="lg-panel lg-panel-right">
+          <div className="lg-welcome-box">
+            <h3 className="lg-welcome-title">¡BIENVENIDO/A DE NUEVO!</h3>
+            <p className="lg-welcome-text">
+              Accede a tu cuenta para pedir, ver el menú y gestionar tus órdenes.
+              <br />
+              Disfruta de descuentos especiales para estudiantes.
+            </p>
           </div>
-
-          <div className="input-group">
-            <label htmlFor="password">Contraseña</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="********"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          {/* Mensajes */}
-          {error && <p className="login-error">{error}</p>}
-          {success && <p className="login-success">{success}</p>}
-
-          <button type="submit" className="login-btn" disabled={loading}>
-            {loading ? "Ingresando..." : "Iniciar Sesión"}
-          </button>
-        </form>
-
-        <div className="extras">
-          <button className="forgot-password" type="button">
-            ¿Olvidaste tu contraseña?
-          </button>
-
-          <button
-            className="create-account"
-            type="button"
-            onClick={goToRegister}
-          >
-            Crear cuenta
-          </button>
         </div>
       </div>
     </div>
   );
 }
 
+export default Login;
