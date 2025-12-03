@@ -24,7 +24,6 @@ export default function ProductoEditar() {
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || "Producto no encontrado");
-        console.log("Producto recibido del backend:", data.product);
         setProducto({
           ...data.product,
           category_id: data.product.category_id?.toString() || "",

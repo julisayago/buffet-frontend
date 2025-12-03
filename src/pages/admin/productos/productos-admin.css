@@ -50,7 +50,7 @@
 
 .admin-productos-tabla th,
 .admin-productos-tabla td {
-  padding: 8px 6px; 
+  padding: 8px 6px;
   border-bottom: 1px solid #ddd;
   text-align: left;
   vertical-align: middle;
@@ -186,7 +186,7 @@
 
 
 @media (max-width: 767px) {
-  .admin-productos-container{
+  .admin-productos-container {
     padding: 10px;
   }
 }
@@ -202,7 +202,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 1px;
   }
 
   .admin-productos-titulo {
@@ -246,7 +246,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 1px;
   }
 
   .admin-productos-titulo {

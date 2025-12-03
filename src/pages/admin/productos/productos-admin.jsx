@@ -15,9 +15,7 @@ export default function ProductosAdmin() {
 
   const [busqueda, setBusqueda] = useState("");
   const [categoriaFiltro, setCategoriaFiltro] = useState("all");
-  const [filtros, setFiltros] = useState({
-    stockBajo: false,
-  });
+  const [filtros, setFiltros] = useState({});
 
   const [categorias, setCategorias] = useState([]);
 
@@ -114,7 +112,6 @@ export default function ProductosAdmin() {
         : p.categoria.toLowerCase() ===
           categorias.find((c) => c.id == categoriaFiltro)?.nombre?.toLowerCase()
     )
-    .filter((p) => (filtros.stockBajo ? p.stock < 10 : true));
 
   return (
     <div className="admin-productos-container">
@@ -157,17 +154,6 @@ export default function ProductosAdmin() {
             </option>
           ))}
         </select>
-
-        <label>
-          <input
-            type="checkbox"
-            checked={filtros.stockBajo}
-            onChange={(e) =>
-              setFiltros((prev) => ({ ...prev, stockBajo: e.target.checked }))
-            }
-          />
-          Stock bajo
-        </label>
       </div>
 
       <div className="admin-productos-tabla-wrapper">
