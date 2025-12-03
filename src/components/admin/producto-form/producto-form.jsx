@@ -37,7 +37,16 @@ export default function ProductoForm({
     const { name, value, type, files, checked } = e.target;
     const val =
       type === "file" ? files[0] : type === "checkbox" ? checked : value;
-    setProducto((prev) => ({ ...prev, [name]: val }));
+
+    setProducto((prev) => {
+      const nuevoProducto = { ...prev, [name]: val };
+
+      if (name === "promocion" && !val) {
+        nuevoProducto.precio_promocion = 0;
+      }
+
+      return nuevoProducto;
+    });
   };
 
   return (
@@ -116,18 +125,17 @@ export default function ProductoForm({
           />
         </label>
 
-        {producto.promocion && (
-          <label>
-            Precio promoción:
-            <input
-              name="precio_promocion"
-              type="number"
-              step="0.01"
-              value={producto.precio_promocion || ""}
-              onChange={handleChange}
-            />
-          </label>
-        )}
+        <label>
+          Precio promoción:
+          <input
+            name="precio_promocion"
+            type="number"
+            step="0.01"
+            value={producto.precio_promocion || ""}
+            onChange={handleChange}
+            disabled={!producto.promocion} 
+          />
+        </label>
 
         <label>
           Imagen:

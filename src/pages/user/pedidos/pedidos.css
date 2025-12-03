@@ -115,8 +115,13 @@ body::after {
 }
 
 .pedido-estado.pendiente {
-  background: #fff3cd;
-  color: #856404;
+  background: #f7e9a0;
+  color: #8c6d00;
+}
+
+.pedido-estado.listo {
+  background: #ffb866;
+  color: #7a3e00;
 }
 
 .pedido-estado.cancelado {

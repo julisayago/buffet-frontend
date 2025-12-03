@@ -29,7 +29,12 @@
   font-size: 0.95rem;
 }
 
-.admin-pedidos-form input,
+.titulo-productos {
+  font-weight: 600;
+  color: black;
+  font-size: 0.95rem;
+}
+
 .admin-pedidos-form select,
 .admin-pedidos-form textarea {
   padding: 0.5rem;
@@ -38,6 +43,14 @@
   border-radius: 4px;
   font-size: 0.95rem;
 }
+
+.admin-pedidos-form input {
+  font-size: 0.95rem;
+  padding: 0.59rem;
+  border: 1px solid #ccc;
+  width: 30%;
+}
+
 
 .admin-pedidos-form input:focus,
 .admin-pedidos-form select:focus,
@@ -101,6 +114,61 @@
   color: white;
 }
 
+.eliminar-producto {
+  background-color: transparent;
+  border: none;
+  color: #e74c3c;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: color 0.2s;
+}
+
+.eliminar-producto:hover {
+  color: #c0392b;
+}
+
+.admin-pedidos-form button.agregar-producto {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #01538D;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 8px 16px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  margin: 10px 0;
+  width: 55%;
+}
+
+.admin-pedidos-form button.agregar-producto:hover {
+  background-color: white;
+  color: #01538D;
+  border: solid 1px #01538D;
+}
+
+
+.admin-pedidos-item {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: left;
+  gap: 12px;
+  margin-bottom: 5px;
+  width: 80%;
+}
+
+
+.subtotal {
+  font-weight: 600;
+  min-width: 100px;
+}
+
+
 /* Tablet */
 @media (min-width: 601px) and (max-width: 1024px) {
   .admin-pedidos-form-container {
@@ -121,6 +189,20 @@
   .admin-pedidos-form-acciones button {
     width: auto;
     padding: 10px 30px;
+  }
+
+  .admin-pedidos-form button.agregar-producto {
+    width: 15%;
+  }
+
+  .select-wrapper {
+    flex-grow: 2;
+    min-width: 200px;
+    margin-bottom: 12px;
+  }
+
+  .admin-pedidos-form input {
+    width: 10%;
   }
 }
 
@@ -144,5 +226,19 @@
   .admin-pedidos-form-acciones button {
     width: auto;
     padding: 10px 30px;
+  }
+
+  .admin-pedidos-form button.agregar-producto {
+    width: 15%;
+  }
+
+  .select-wrapper {
+    flex-grow: 2;
+    min-width: 200px;
+    margin-bottom: 12px;
+  }
+
+  .admin-pedidos-form input {
+    width: 10%;
   }
 }

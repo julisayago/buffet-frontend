@@ -423,7 +423,7 @@ function Carrito({ onClose }) {
                   className="btn-checkout"
                   onClick={() => navigate("/pedidos")}
                 >
-                  Ver pedido
+                  Ver pedidos
                 </button>
               </div>
             </div>
