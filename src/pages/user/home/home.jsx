@@ -87,6 +87,45 @@ function Home() {
     return () => clearInterval(interval);
   }, []);
 
+  // Carrusel de banners
+  useEffect(() => {
+    let bIndex = 0;
+    const bSlides = document.querySelectorAll(".banner-slide");
+    const bDots = document.querySelectorAll(".bdot");
+
+    const showBSlide = (n) => {
+      bSlides.forEach((slide, i) => {
+        slide.classList.remove("active");
+        bDots[i].classList.remove("active");
+        if (i === n) {
+          slide.classList.add("active");
+          bDots[i].classList.add("active");
+        }
+      });
+    };
+
+    const nextB = () => {
+      bIndex = (bIndex + 1) % bSlides.length;
+      showBSlide(bIndex);
+    };
+
+    const prevB = () => {
+      bIndex = (bIndex - 1 + bSlides.length) % bSlides.length;
+      showBSlide(bIndex);
+    };
+
+    const intervalB = setInterval(nextB, 6000);
+
+    document.querySelector(".banner-next").onclick = nextB;
+    document.querySelector(".banner-prev").onclick = prevB;
+
+    bDots.forEach((dot, i) => {
+      dot.onclick = () => showBSlide((bIndex = i));
+    });
+
+    return () => clearInterval(intervalB);
+  }, []);
+
   return (
     <main className="home-container">
       {/* Hero Carrusel */}
@@ -183,7 +222,7 @@ function Home() {
             <div
               key={cat.id}
               className="home-categoria-card"
-              onClick={() => navigate("/productos")}
+              onClick={() => navigate(`/productos?categoria=${cat.id}`)}
             >
               <span className="home-categoria-nombre">{cat.nombre}</span>
             </div>
@@ -191,43 +230,76 @@ function Home() {
         </div>
       </section>
 
-      {/* Banner Café */}
-      <section className="home-banner-cafe">
-        <div className="banner-cafe">
-          <img src="/home/banner-Buffet.png" alt="Banner Buffet" />
-          <div className="banner-cafe-text">
-            <h2>Promociones del Buffet</h2>
-            <p>Por compras superiores a $5.000 obtené un café gratis</p>
-            <button
-              className="btn-banner"
-              onClick={() => navigate("/productos")}
-            >
-              Pedir ahora
-            </button>
+      {/* Carrusel de Banners*/}
+      <section className="banner-carousel">
+        <div className="banner-slide active">
+          <div className="banner-cafe">
+            <img src="/home/banner-bebida.png" alt="Banner Buffet" />
           </div>
         </div>
+
+        <div className="banner-slide">
+          <div className="banner-cafe">
+            <img src="/home/banner-caffe.png" alt="Caffe" />
+            <div className="banner-cafe-text">
+              <h2>Promociones del Buffet</h2>
+              <p>Por compras superiores a $5.000 obtené un café gratis</p>
+              <button
+                className="btn-banner"
+                onClick={() => navigate("/productos")}
+              >
+                Pedir ahora
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="banner-slide">
+          <div className="banner-cafe">
+            <img src="/home/banner-sandwich.png" alt="Sandwich" />
+            <div className="banner-cafe-text">
+              <h2>2x1 en Sándwich</h2>
+              <p>De 8:00 a 20:00 hs</p>
+              <button
+                className="btn-banner"
+                onClick={() => navigate("/productos")}
+              >
+                Aprovechar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Flechas */}
+        <button className="banner-prev">&#10094;</button>
+        <button className="banner-next">&#10095;</button>
+
+        {/* Indicadores */}
+        <div className="banner-dots">
+          <span className="bdot active"></span>
+          <span className="bdot"></span>
+          <span className="bdot"></span>
+        </div>
       </section>
+
       {mensaje && <div className="mensaje-carrito">{mensaje}</div>}
-      {/* Promociones dinámicas */}
+
+      {/* Promociones */}
       <section className="promociones-section">
         <h2>Promociones</h2>
-        {loadingPromos ? (
-          <p>Cargando promociones...</p>
-        ) : (
-          <div className="promociones-productos-grid">
-            {promociones.length > 0 ? (
-              promociones.map((promo) => (
-                <ProductCard
-                  key={promo.id}
-                  producto={promo}
-                  onAddToCart={() => handleAddToCart(promo, setMensaje)}
-                />
-              ))
-            ) : (
-              <p>No hay promociones disponibles.</p>
-            )}
-          </div>
-        )}
+        <div className="promociones-productos-grid">
+          {promociones.length > 0 ? (
+            promociones.map((promo) => (
+              <ProductCard
+                key={promo.id}
+                producto={promo}
+                onAddToCart={() => handleAddToCart(promo, setMensaje)}
+              />
+            ))
+          ) : (
+            <p>No hay promociones disponibles.</p>
+          )}
+        </div>
       </section>
 
       {/* Banners Promocionales Buffet */}
