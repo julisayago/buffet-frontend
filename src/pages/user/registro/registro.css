@@ -140,7 +140,7 @@
 
 .rg-back-button {
   position: relative;
-  top: 20px;   
+  top: 50px;   
   background:none;
   border:none;
   color:#01538D;
@@ -252,8 +252,10 @@
 }
 
 .password-wrapper input {
-  width: 100%;
-  padding-right: 45px;
+  width: 100% !important;   
+  padding-left: 2.8rem;     
+  padding-right: 45px;      
+  box-sizing: border-box;   
 }
 
 .toggle-password {
