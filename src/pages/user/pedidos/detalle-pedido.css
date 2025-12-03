@@ -134,6 +134,16 @@ main,
   background: #002b59;
 }
 
+.pedidoDetalle-info-extra {
+  margin: 15px 0;
+  padding: 10px;
+}
+
+.pedidoDetalle-info-extra p {
+  margin: 5px 0;
+}
+
+
 /* Mobile */
 @media (max-width: 600px) {
   .pedidoDetalle-container {
@@ -263,6 +273,11 @@ main,
     font-size: 1.5rem;
   }
 
+  .pedidoDetalle-info-extra {
+    font-size: 1.5rem;
+  }
+
+
   .btn-qr {
     padding: 1.1rem 0;
     width: 500px;
@@ -275,6 +290,7 @@ main,
     display: block;
     text-align: center;
   }
+
 }
 
 /* Tablet */
@@ -352,6 +368,10 @@ main,
   }
 
   .pedidoDetalle-total-precio {
+    font-size: 1.35rem;
+  }
+
+  .pedidoDetalle-info-extra {
     font-size: 1.35rem;
   }
 

@@ -92,6 +92,19 @@ const Detalle = () => {
           </p>
         </div>
 
+        <div className="pedidoDetalle-info-extra">
+          <p>
+            <strong>Método de pago:</strong>{" "}
+            {pedido.metodo_pago || "No especificado"}
+          </p>
+
+          {pedido.notas && (
+            <p>
+              <strong>Notas:</strong> {pedido.notas}
+            </p>
+          )}
+        </div>
+
         <button className="btn-qr" onClick={() => navigate(`/qr/${pedido.id}`)}>
           Ver QR
         </button>
