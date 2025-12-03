@@ -70,6 +70,16 @@
   transform: scale(1.05);
 }
 
+.precio-original {
+  text-decoration: line-through;
+  color: gray;
+  margin-right: 8px;
+}
+
+.precio-promocion {
+  font-weight: bold;
+}
+
 /* Mobile */
 @media (max-width: 900px) {
   .producto-card {
@@ -100,8 +110,8 @@
 /* Desktop amplio */
 @media (min-width: 1100px) {
   .producto-card {
-    width: 260px;
-    min-height: 280px;
+    width: 210px;
+    min-height: 260px;
   }
 
   .producto-card img {
