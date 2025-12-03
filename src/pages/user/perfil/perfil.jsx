@@ -2,7 +2,13 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { API_URL } from "@config/api";
 import "./perfil.css";
-import { AiOutlineArrowLeft, AiOutlineEdit } from "react-icons/ai";
+import {
+  AiOutlineArrowLeft,
+  AiOutlineEdit,
+  AiOutlineUser,
+  AiOutlineMail,
+  AiOutlinePhone,
+} from "react-icons/ai";
 import Loader from "@components/loader/loader";
 
 function Perfil() {
@@ -13,12 +19,12 @@ function Perfil() {
     email: "",
     telefono: "",
     current_password: "",
-    new_password: ""
+    new_password: "",
   });
 
   const [loading, setLoading] = useState(true);
   const [editando, setEditando] = useState(false);
-  const [mensaje, setMensaje] = useState(""); 
+  const [mensaje, setMensaje] = useState("");
 
   const token = localStorage.getItem("token");
 
@@ -32,7 +38,7 @@ function Perfil() {
 
       try {
         const res = await fetch(`${API_URL}/users/profile`, {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` },
         });
 
         const data = await res.json();
@@ -45,7 +51,7 @@ function Perfil() {
           email: usuario.email || "",
           telefono: usuario.telefono || "",
           current_password: "",
-          new_password: ""
+          new_password: "",
         });
       } catch (err) {
         setMensaje(err.message);
@@ -78,15 +84,20 @@ function Perfil() {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Error al actualizar perfil");
+      if (!res.ok)
+        throw new Error(data.message || "Error al actualizar perfil");
 
-      setMensaje(perfil.new_password ? "Perfil y contraseña actualizados exitosamente" : "Perfil actualizado exitosamente");
+      setMensaje(
+        perfil.new_password
+          ? "Perfil y contraseña actualizados exitosamente"
+          : "Perfil actualizado exitosamente"
+      );
       setEditando(false);
       setPerfil({ ...perfil, current_password: "", new_password: "" });
 
@@ -102,7 +113,7 @@ function Perfil() {
     setLoading(true);
 
     fetch(`${API_URL}/users/profile`, {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
       .then((data) => {
@@ -112,7 +123,7 @@ function Perfil() {
           email: usuario.email || "",
           telefono: usuario.telefono || "",
           current_password: "",
-          new_password: ""
+          new_password: "",
         });
       })
       .catch((err) => {
@@ -138,73 +149,97 @@ function Perfil() {
 
         <div className="perfil-bienvenida">
           <h3>¡Hola!</h3>
-          <p>Desde aquí podés editar tu información personal y mantener tu cuenta actualizada.</p>
+          <p>
+            Desde aquí podés editar tu información personal y mantener tu cuenta
+            actualizada.
+          </p>
         </div>
 
         <div className="perfil-info">
+          {/* Nombre */}
           <div className="perfil-input-card">
             <label>Nombre</label>
-            <input
-              type="text"
-              name="nombre"
-              value={perfil.nombre}
-              onChange={handleChange}
-              placeholder="Tu nombre"
-              disabled={!editando}
-            />
+            <div className="perfil-input-wrapper">
+              <AiOutlineUser className="perfil-icon" />
+              <input
+                type="text"
+                name="nombre"
+                value={perfil.nombre}
+                onChange={handleChange}
+                placeholder="Tu nombre"
+                className="perfil-input"
+                disabled={!editando}
+              />
+            </div>
           </div>
 
+          {/* Correo */}
           <div className="perfil-input-card">
             <label>Correo electrónico</label>
-            <input
-              type="email"
-              name="email"
-              value={perfil.email}
-              disabled
-              placeholder="correo@ejemplo.com"
-            />
+            <div className="perfil-input-wrapper">
+              <AiOutlineMail className="perfil-icon" />
+              <input
+                type="email"
+                name="email"
+                value={perfil.email}
+                disabled
+                placeholder="correo@ejemplo.com"
+                className="perfil-input"
+              />
+            </div>
           </div>
 
+          {/* Teléfono */}
           <div className="perfil-input-card">
             <label>Teléfono</label>
-            <input
-              type="text"
-              name="telefono"
-              value={perfil.telefono || ""}
-              onChange={handleChange}
-              placeholder="Ej: 1123456789"
-              disabled={!editando}
-            />
+            <div className="perfil-input-wrapper">
+              <AiOutlinePhone className="perfil-icon" />
+              <input
+                type="text"
+                name="telefono"
+                value={perfil.telefono || ""}
+                onChange={handleChange}
+                placeholder="Ej: 1123456789"
+                className="perfil-input"
+                disabled={!editando}
+              />
+            </div>
           </div>
 
-          {/* Inputs de contraseña */}
+          {/* Contraseña */}
           {editando && (
             <>
               <div className="perfil-input-card">
                 <label>Contraseña actual</label>
-                <input
-                  type="password"
-                  name="current_password"
-                  value={perfil.current_password || ""}
-                  onChange={handleChange}
-                  placeholder="Ingresa tu contraseña actual"
-                />
+                <div className="perfil-input-wrapper">
+                  <input
+                    type="password"
+                    name="current_password"
+                    value={perfil.current_password || ""}
+                    onChange={handleChange}
+                    placeholder="Ingresa tu contraseña actual"
+                  />
+                </div>
               </div>
 
               <div className="perfil-input-card">
                 <label>Nueva contraseña</label>
-                <input
-                  type="password"
-                  name="new_password"
-                  value={perfil.new_password || ""}
-                  onChange={handleChange}
-                  placeholder="Dejar vacío si no quieres cambiarla"
-                />
+                <div className="perfil-input-wrapper">
+                  <input
+                    type="password"
+                    name="new_password"
+                    value={perfil.new_password || ""}
+                    onChange={handleChange}
+                    placeholder="Dejar vacío si no quieres cambiarla"
+                    className="perfil-input"
+                  />
+                </div>
               </div>
             </>
           )}
         </div>
 
+        {/* Acciones */}
         <div className="perfil-actions">
           {!editando && (
             <button
@@ -220,7 +255,10 @@ function Perfil() {
               <button className="perfil-boton guardar" onClick={handleGuardar}>
                 Guardar
               </button>
-              <button className="perfil-boton cancelar" onClick={handleCancelar}>
+              <button
+                className="perfil-boton cancelar"
+                onClick={handleCancelar}
+              >
                 Cancelar
               </button>
             </>
