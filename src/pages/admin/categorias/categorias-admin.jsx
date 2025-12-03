@@ -13,7 +13,6 @@ export default function CategoriasAdmin() {
 
   const [formData, setFormData] = useState({
     nombre: "",
-    descripcion: "",
   });
 
   useEffect(() => {
@@ -43,11 +42,10 @@ export default function CategoriasAdmin() {
       setCategoriaEdit(categoria);
       setFormData({
         nombre: categoria.nombre,
-        descripcion: categoria.descripcion || "",
       });
     } else {
       setCategoriaEdit(null);
-      setFormData({ nombre: "", descripcion: "" });
+      setFormData({ nombre: ""});
     }
     setMostrarModal(true);
   };
@@ -154,7 +152,6 @@ export default function CategoriasAdmin() {
           <thead>
             <tr>
               <th>Nombre</th>
-              <th>Descripción</th>
               <th>Estado</th>
               <th>Acciones</th>
             </tr>
@@ -164,7 +161,6 @@ export default function CategoriasAdmin() {
             {categorias.map((cat) => (
               <tr key={cat.id}>
                 <td>{cat.nombre}</td>
-                <td>{cat.descripcion || "-"}</td>
                 <td>
                   <span
                     className={`estado-badge ${
@@ -209,15 +205,6 @@ export default function CategoriasAdmin() {
                 type="text"
                 name="nombre"
                 value={formData.nombre}
-                onChange={handleInputChange}
-              />
-            </label>
-
-            <label>
-              Descripción:
-              <textarea
-                name="descripcion"
-                value={formData.descripcion}
                 onChange={handleInputChange}
               />
             </label>
