@@ -17,19 +17,21 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    color: #004080;
 }
 
 .contact-header h2 {
     font-size: 1.375rem;
     margin: 0;
-    font-weight: 600;
+    font-weight: 700;
+    color: #004080;
 }
 
 .back-button {
     background: none;
     border: none;
     cursor: pointer;
-    color: black;
+    color: #004080;
     padding: 0;
     display: flex;
     align-items: center;
@@ -78,4 +80,30 @@ iframe {
     border: none;
     border-radius: 8px;
     margin-top: 1rem;
+}
+
+
+@media screen and (min-width: 1024px) {
+    .contact-header {
+        position: absolute;
+        top: 4.9rem;
+        left: 1.4rem;
+        margin: 0;
+        font-weight: 700;
+    }
+
+    .back-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.9rem;
+        color: #004080;
+        padding: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .contact-container h2 {
+        font-size: 1.8rem;
+    }
 }
