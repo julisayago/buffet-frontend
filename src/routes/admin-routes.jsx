@@ -8,7 +8,6 @@ import UsuariosAdmin from "@adminpages/usuarios/usuarios-admin";
 import EditarUsuario from "@adminpages/usuarios/usuario-editar";
 import CrearUsuario from "@adminpages/usuarios/usuario-crear";
 import PedidosAdmin from "@adminpages/pedidos/pedidos-admin";
-import EditarPedido from "@adminpages/pedidos/pedido-editar";
 import CrearPedido from "@adminpages/pedidos/pedido-crear";
 import CategoriasAdmin from "@adminpages/categorias/categorias-admin";
 
@@ -26,7 +25,6 @@ export default function AdminRoutes() {
       <Route path="usuarios/editar/:id" element={<EditarUsuario />} />
       <Route path="pedidos" element={<PedidosAdmin />} />
       <Route path="pedidos/agregar" element={<CrearPedido />} />
-      <Route path="pedidos/editar/:id" element={<EditarPedido />} />
     </Routes>
   );
 }
