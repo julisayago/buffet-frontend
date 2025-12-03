@@ -15,7 +15,7 @@ const Navbar = () => {
   const [showNav, setShowNav] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0); // contador de productos
+  const [cartCount, setCartCount] = useState(0);
 
   const [busqueda, setBusqueda] = useState("");
   const navigate = useNavigate();
@@ -38,14 +38,11 @@ const Navbar = () => {
     navigate("/"); 
   };
 
-  // Función para actualizar el contador desde localStorage
   const updateCartCount = () => {
     const localCart = JSON.parse(localStorage.getItem("cart")) || [];
     const total = localCart.reduce((acc, item) => acc + (item.cantidad || 0), 0);
     setCartCount(total);
   };
-
-  // Actualiza contador al montar y al recibir evento cartUpdated
   useEffect(() => {
     updateCartCount();
     const handleCartUpdated = () => updateCartCount();
