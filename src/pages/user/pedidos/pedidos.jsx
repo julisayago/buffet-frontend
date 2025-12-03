@@ -26,7 +26,6 @@ const Pedidos = () => {
 
         const data = await response.json();
         setPedidos(data.orders);
-        console.log(data.orders);
       } catch (error) {
         console.error("Error fetching pedidos:", error);
       } finally {

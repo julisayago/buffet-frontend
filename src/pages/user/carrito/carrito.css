@@ -1,4 +1,5 @@
 .carrito-container {
+  font-family: 'Poppins', sans-serif;
   background-color: white;
   padding: 1rem 2rem;
   min-height: 100vh;
@@ -271,6 +272,40 @@
 .mobile-only {
   display: block;
 }
+
+
+.confirmar-metodo-pago,
+.confirmar-notas {
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.confirmar-metodo-pago label,
+.confirmar-notas label {
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.confirmar-metodo-pago select,
+.confirmar-notas textarea {
+  padding: 8px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  border: 1.5px solid #01538D;
+  border-radius: 10px;
+  padding: 0.2rem 1.1rem;
+  background: #f9fbff;
+}
+
+.confirmar-metodo-pago select:focus,
+.confirmar-notas textarea:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+
 
 @media (min-width: 1024px) {
   .mobile-only {

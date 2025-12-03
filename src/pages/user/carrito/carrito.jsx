@@ -111,6 +111,8 @@ function Carrito({ onClose }) {
   const [carrito, setCarrito] = useState([]);
   const [loading, setLoading] = useState(true);
   const [mensaje, setMensaje] = useState("");
+  const [metodoPago, setMetodoPago] = useState("efectivo");
+  const [notas, setNotas] = useState("");
 
   const loadCart = async () => {
     setLoading(true);
@@ -185,22 +187,23 @@ function Carrito({ onClose }) {
   );
 
   const confirmarPedido = async () => {
-    try {
-      const items = carrito.map((item) => ({
-        producto: item.producto,
-        cantidad: item.cantidad,
-      }));
-      const res = await createOrder(items, "efectivo", "");
-      if (res.success) {
-        setStep("gracias");
-        const userId = localStorage.getItem("user_id");
-        localStorage.removeItem(`cart_${userId}`);
-        setCarrito([]);
-      } else alert(res.message);
-    } catch (error) {
-      console.error("Error creando pedido:", error);
-    }
-  };
+  try {
+    const items = carrito.map((item) => ({
+      producto: item.producto,
+      cantidad: item.cantidad,
+    }));
+    const res = await createOrder(items, metodoPago, notas);
+    if (res.success) {
+      setStep("gracias");
+      const userId = localStorage.getItem("user_id");
+      localStorage.removeItem(`cart_${userId}`);
+      setCarrito([]);
+    } else alert(res.message);
+  } catch (error) {
+    console.error("Error creando pedido:", error);
+  }
+};
+
 
   if (loading) return <p>Cargando carrito...</p>;
 
@@ -366,6 +369,26 @@ function Carrito({ onClose }) {
                     </button>
                   </div>
                 ))}
+              </div>
+              <div className="confirmar-metodo-pago">
+                <label>Método de pago:</label>
+                <select
+                  value={metodoPago}
+                  onChange={(e) => setMetodoPago(e.target.value)}
+                >
+                  <option value="efectivo">Efectivo</option>
+                  <option value="tarjeta">Tarjeta</option>
+                  <option value="qr">QR</option>
+                </select>
+              </div>
+
+              <div className="confirmar-notas">
+                <label>Notas adicionales:</label>
+                <textarea
+                  value={notas}
+                  onChange={(e) => setNotas(e.target.value)}
+                  placeholder="Escribe aquí alguna indicación sobre tu pedido..."
+                />
               </div>
 
               <div className="confirmar-total">

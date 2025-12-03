@@ -75,7 +75,6 @@ const Detalle = () => {
               <p className="pedidoDetalle-cantidad">
                 Cantidad: {item.cantidad}
               </p>
-              {/* Subtotal con el mismo estilo que el precio */}
               <p className="pedidoDetalle-precio">
                 Total: $
                 {(item.precio * item.cantidad).toLocaleString("es-AR", {

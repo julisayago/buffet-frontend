@@ -23,7 +23,6 @@ function ProductoDetalle() {
         const res = await fetch(`${API_URL}/products/${id}`);
         if (!res.ok) throw new Error("Producto no encontrado");
         const data = await res.json();
-
         setProducto(data.product);
         setError("");
       } catch (err) {
