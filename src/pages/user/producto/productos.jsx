@@ -1,159 +1,154 @@
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 import ProductCard from "@usercomponents/product-card/product-card";
-import './productos.css';
+import "./productos.css";
 import { AiOutlineArrowLeft } from "react-icons/ai";
+import { API_URL } from "@config/api";
+import Loader from "@components/loader/loader";
+import { handleAddToCart } from "@userpages/carrito/carrito";
 
 function Productos() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const search = params.get("search") || "";
+  const categoriaParam = params.get("categoria") || "all";
 
-  const categorias = [
-    { id: "all", nombre: "Todo" },
-    { id: "bebidas", nombre: "Bebidas" },
-    { id: "golosinas", nombre: "Golosinas" },
-    { id: "sandwiches", nombre: "Sándwiches" },
-    { id: "snacks", nombre: "Snacks" },
-    { id: "postres", nombre: "Postres" },
-  ];
+  const [categorias, setCategorias] = useState([{ id: "all", nombre: "Todo" }]);
+  const [categoriaSeleccionada, setCategoriaSeleccionada] =
+    useState(categoriaParam);
 
-  const productosData = [
-    {
-      id: 1,
-      nombre: "Café + 2 medialunas",
-      precio: 2000,
-      categoria: "bebidas",
-      img: "/assets/cafe-medialunas.png",
-    },
-    {
-      id: 2,
-      nombre: "Sándwich de jamón y queso",
-      precio: 2500,
-      categoria: "sandwiches",
-      img: "/assets/sandwich.png",
-    },
-    {
-      id: 3,
-      nombre: "Hamburguesa + papas",
-      precio: 3500,
-      categoria: "sandwiches",
-      img: "/assets/hamburguesa-papas.png",
-    },
-    {
-      id: 4,
-      nombre: "Flan con dulce",
-      precio: 1500,
-      categoria: "postres",
-      img: "/assets/flan.png",
-    },
-    {
-      id: 5,
-      nombre: "Café con leche",
-      precio: 1800,
-      categoria: "bebidas",
-      img: "/assets/cafe.png",
-    },
-    {
-      id: 6,
-      nombre: "Brownie",
-      precio: 1200,
-      categoria: "postres",
-      img: "/assets/brownie.png",
-    },
-    {
-      id: 7,
-      nombre: "Té con limón",
-      precio: 1700,
-      categoria: "bebidas",
-      img: "/assets/te.png",
-    },
-    {
-      id: 8,
-      nombre: "Pizza individual",
-      precio: 3000,
-      categoria: "snacks",
-      img: "/assets/pizza.png",
-    },
-    {
-      id: 9,
-      nombre: "Ensalada fresca",
-      precio: 2800,
-      categoria: "snacks",
-      img: "/assets/ensalada.png",
-    },
-    {
-      id: 10,
-      nombre: "Helado",
-      precio: 1600,
-      categoria: "postres",
-      img: "/assets/helado.png",
-    },
-    {
-      id: 11,
-      nombre: "Chocolate",
-      precio: 900,
-      categoria: "golosinas",
-      img: "/assets/chocolate.png",
-    },
-    {
-      id: 12,
-      nombre: "Caramelos surtidos",
-      precio: 600,
-      categoria: "golosinas",
-      img: "/assets/caramelos.png",
-    },
-  ];
-
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("all");
+  const [productosData, setProductosData] = useState([]);
   const [mensaje, setMensaje] = useState("");
 
-  const productosFiltrados =
-    categoriaSeleccionada === "all"
-      ? productosData
-      : productosData.filter((p) => p.categoria === categoriaSeleccionada);
+  const [mostrarFiltros, setMostrarFiltros] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const handleAddToCart = (producto) => {
-    const carritoActual = JSON.parse(localStorage.getItem("carrito")) || [];
-    const existe = carritoActual.find((p) => p.id === producto.id);
+  const [filtros, setFiltros] = useState({
+    promociones: false,
+    maxPrecio: 20000,
+  });
 
-    if (existe) {
-      existe.cantidad += 1;
-    } else {
-      carritoActual.push({ ...producto, cantidad: 1 });
-    }
-
-    localStorage.setItem("carrito", JSON.stringify(carritoActual));
-
-    setMensaje(` ${producto.nombre} añadido al carrito`);
-    setTimeout(() => setMensaje(""), 2000);
+  const handleFiltroChange = (e) => {
+    const { id, checked } = e.target;
+    setFiltros((prev) => ({ ...prev, [id]: checked }));
   };
+
+  const handlePrecioChange = (e) => {
+    setFiltros((prev) => ({ ...prev, maxPrecio: Number(e.target.value) }));
+  };
+
+  // Traer productos
+  useEffect(() => {
+    const fetchProductos = async () => {
+      try {
+        const res = await fetch(`${API_URL}/products`);
+        const data = await res.json();
+        if (data.products) {
+          setProductosData(data.products);
+        } else {
+          console.error("Formato inesperado:", data);
+        }
+      } catch (error) {
+        console.error("Error al traer productos:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProductos();
+  }, []);
+
+  // Traer categorías
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      try {
+        const res = await fetch(`${API_URL}/categories`);
+        if (!res.ok) throw new Error("Error al traer categorías");
+
+        const data = await res.json();
+
+        const categoriasBack = data.categories.map((cat) => ({
+          id: String(cat.id), 
+          nombre: cat.nombre,
+        }));
+
+        setCategorias([{ id: "all", nombre: "Todo" }, ...categoriasBack]);
+      } catch (error) {
+        console.error("Error cargando categorías:", error);
+      }
+    };
+    fetchCategorias();
+  }, []);
+
+  if (loading) {
+    return <Loader text="Cargando productos..." />;
+  }
+
+  // Filtrar productos
+  const productosFiltrados = productosData
+    .filter((p) =>
+      categoriaSeleccionada === "all"
+        ? true
+        : String(p.category_id) === categoriaSeleccionada
+    )
+    .filter((p) => p.precio <= filtros.maxPrecio)
+    .filter((p) => {
+      if (filtros.promociones && !p.promocion) return false;
+      return true;
+    })
+    .filter((p) => p.nombre.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <>
       <div className="productos-layout">
         {/* Columna izquierda */}
-        <aside className="productos-sidebar left">
-          <div className="sidebar-card">
-            <h3>Promos del día</h3>
-            <ul>
-              <li>Café + medialuna — $2000</li>
-              <li>Hamburguesa + papas — $3500</li>
-            </ul>
-            <button className="btn-promo">Paga con QR y obtené 10% OFF</button>
-          </div>
+        <aside className="productos-sidebar left desktop-banner">
+          <button
+            className="btn-toggle-filtros"
+            onClick={() => setMostrarFiltros(!mostrarFiltros)}
+          >
+            {mostrarFiltros ? "Cerrar Filtros ▲" : "Mostrar Filtros ▼"}
+          </button>
 
-          <div className="sidebar-card">
-            <h3>Horarios de Atención</h3>
-            <p>Lun a Vie: 08:00 – 22:00</p>
-            <p>Sábados: 09:00 – 14:00</p>
-          </div>
+          {mostrarFiltros && (
+            <div className="sidebar-card filtros-card">
+              <h3>Filtros</h3>
+              <ul>
+                <li>
+                  <input
+                    type="checkbox"
+                    id="promociones"
+                    checked={filtros.promociones}
+                    onChange={handleFiltroChange}
+                  />
+                  <label htmlFor="promociones">Promociones</label>
+                </li>
+              </ul>
+              <h4>Rango de precio</h4>
+              <p>$1000 Hasta ${filtros.maxPrecio}</p>
+              <input
+                type="range"
+                min="1000"
+                max="20000"
+                step="100"
+                value={filtros.maxPrecio}
+                onChange={handlePrecioChange}
+              />
+            </div>
+          )}
 
-          <div className="sidebar-card">
-            <h3>Contacto</h3>
-            <p>📍 Blas Parera 132, Burzaco</p>
-            <p>WhatsApp: +54 11 1234-5678</p>
-            <a href="https://maps.google.com" target="_blank" rel="noreferrer">
-              Ver en mapa
-            </a>
+          {/* Banner Promocional */}
+          <div className="banner-promocional">
+            <img
+              src="/banner-productos.png"
+              alt="Banner Buffet"
+              className="banner-promocional-img"
+            />
+            <div className="banner-contenido">
+              <h4>Buffet Universitario</h4>
+              <h2>Disfrutá lo mejor del día</h2>
+              <p>Pedí tus combos favoritos y obtené beneficios exclusivos.</p>
+            </div>
           </div>
         </aside>
 
@@ -179,7 +174,11 @@ function Productos() {
                 className={`categoria-card ${
                   categoriaSeleccionada === cat.id ? "activa" : ""
                 }`}
-                onClick={() => setCategoriaSeleccionada(cat.id)}
+                onClick={() =>
+                  setCategoriaSeleccionada(
+                    cat.id === "all" ? "all" : String(cat.id)
+                  )
+                }
               >
                 {cat.nombre}
               </div>
@@ -188,13 +187,19 @@ function Productos() {
 
           <section>
             <div className="productos-grid">
-              {productosFiltrados.map((prod) => (
-                <ProductCard
-                  key={prod.id}
-                  producto={prod}
-                  onAddToCart={handleAddToCart}
-                />
-              ))}
+              {productosFiltrados.length > 0 ? (
+                productosFiltrados.map((prod) => (
+                  <ProductCard
+                    key={prod.id}
+                    producto={prod}
+                    onAddToCart={() => handleAddToCart(prod, setMensaje)}
+                  />
+                ))
+              ) : (
+                <p className="sin-resultados">
+                  No hay productos que coincidan con los filtros o búsqueda.
+                </p>
+              )}
             </div>
           </section>
         </div>
@@ -202,27 +207,25 @@ function Productos() {
         {/* Columna derecha */}
         <aside className="productos-sidebar right">
           <div className="sidebar-card">
-            <h3>⭐ Top Ventas</h3>
+            <h3>★ Top Ventas</h3>
             <p>Hamburguesa + papas — $3500</p>
             <p>Café + 2 medialunas — $2000</p>
-            <button className="btn-promo">+ Añadir</button>
           </div>
 
           <div className="sidebar-card">
-            <h3>🆕 Novedades</h3>
-            <p>Ensalada fresca</p>
-            <p>Pizza individual</p>
+            <h3>Horarios de Atención</h3>
+            <p>Lun a Vie: 08:00 – 22:00</p>
+            <p>Sábados: 09:00 – 14:00</p>
           </div>
 
           <div className="sidebar-card">
-            <h3> Oferta Relámpago</h3>
+            <h3>Oferta Relámpago</h3>
             <p>Brownie — 20% OFF</p>
             <small>Hasta las 18:00</small>
-            <button className="btn-promo">Aprovechar</button>
           </div>
 
           <div className="sidebar-card">
-            <h3> Te recomendamos</h3>
+            <h3>Te recomendamos</h3>
             <p>
               Si pediste <b>Hamburguesa</b>, añadí <b>Papas grandes</b>
             </p>
