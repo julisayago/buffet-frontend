@@ -54,7 +54,7 @@ body::after {
 .pedidos-title {
   font-size: 1.375rem;
   margin: 0;
-  font-weight: 600;
+  font-weight: 700;
   color: #004080;
 }
 
@@ -223,6 +223,8 @@ body::after {
 
   .pedidos-title {
     font-size: 1.8rem;
+    margin: 0;
+    font-weight: 700;
   }
 
   .pedido-item {

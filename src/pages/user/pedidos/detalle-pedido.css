@@ -4,16 +4,17 @@
   margin-top: 3.125rem;
   padding: 1rem 2rem;
   min-height: calc(100vh - 100px);
-  padding-bottom: 0px; 
+  padding-bottom: 0px;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
 }
 
-main, 
+main,
 .pedidoDetalle-container {
   min-height: auto !important;
   height: auto !important;
@@ -48,9 +49,9 @@ main,
 }
 
 .pedidoDetalle-title {
-  font-size: 1.357rem;
+  font-size: 1.375rem;
   margin: 0;
-  font-weight: 600;
+  font-weight: 700;
   color: #004080;
 }
 
@@ -99,7 +100,7 @@ main,
 .pedidoDetalle-nombre,
 .pedidoDetalle-precio,
 .pedidoDetalle-cantidad {
-  margin: 0.2rem; 
+  margin: 0.2rem;
 }
 
 
@@ -135,9 +136,9 @@ main,
 
 /* Mobile */
 @media (max-width: 600px) {
-.pedidoDetalle-container{
-  padding-bottom: 12rem; 
-}
+  .pedidoDetalle-container {
+    padding-bottom: 12rem;
+  }
 
   .pedidoDetalle-card {
     background: none;
@@ -196,10 +197,10 @@ main,
   }
 
   .pedidoDetalle-title {
-  font-size: 1.8rem;
-  margin: 0;
-  font-weight: 600;
-}
+    font-size: 1.8rem;
+    margin: 0;
+    font-weight: 700;
+  }
 
   .pedidoDetalle-card {
     background: none;
@@ -223,7 +224,7 @@ main,
     width: 180px;
     height: 180px;
     border-radius: 14px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.07);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.07);
   }
 
   .pedidoDetalle-info {
@@ -278,11 +279,11 @@ main,
 
 /* Tablet */
 @media (min-width: 601px) and (max-width: 1023px) {
-.pedidoDetalle-container {
+  .pedidoDetalle-container {
     font-family: 'Poppins', sans-serif;
     min-height: 100vh;
     padding: 6rem 4rem 4rem;
-    padding-bottom: 11rem; 
+    padding-bottom: 11rem;
   }
 
   .pedidoDetalle-header {
@@ -365,5 +366,5 @@ main,
     cursor: pointer;
     transition: background 0.2s ease;
   }
-  
+
 }
