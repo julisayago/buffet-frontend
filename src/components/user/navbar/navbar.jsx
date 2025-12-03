@@ -35,22 +35,27 @@ const Navbar = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setShowNav(false);
-    navigate("/"); 
+    navigate("/");
   };
 
   const updateCartCount = () => {
-    const localCart = JSON.parse(localStorage.getItem("cart")) || [];
-    const total = localCart.reduce((acc, item) => acc + (item.cantidad || 0), 0);
+    const userId = localStorage.getItem("user_id");
+    if (!userId) return setCartCount(0);
+
+    const localCart = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
+    const total = localCart.reduce(
+      (acc, item) => acc + (item.cantidad || 0),
+      0
+    );
     setCartCount(total);
   };
+
   useEffect(() => {
     updateCartCount();
     const handleCartUpdated = () => updateCartCount();
     window.addEventListener("cartUpdated", handleCartUpdated);
     return () => window.removeEventListener("cartUpdated", handleCartUpdated);
   }, []);
-
-  
 
   return (
     <nav className="navbar">
@@ -77,7 +82,11 @@ const Navbar = () => {
 
         {/* HAMBURGER */}
         <div className="menu-icon" onClick={toggleNav}>
-          {showNav ? <AiOutlineClose size={24} /> : <GiHamburgerMenu size={24} />}
+          {showNav ? (
+            <AiOutlineClose size={24} />
+          ) : (
+            <GiHamburgerMenu size={24} />
+          )}
         </div>
 
         {/* CARRITO MOBILE */}
@@ -148,7 +157,10 @@ const Navbar = () => {
           </ul>
           <ul className="right-icons">
             {/* Carrito Desktop */}
-            <li onClick={() => setIsCartOpen((prev) => !prev)} className="cart-desktop">
+            <li
+              onClick={() => setIsCartOpen((prev) => !prev)}
+              className="cart-desktop"
+            >
               <MdLocalGroceryStore className="nav-icon-cart" />
               {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
             </li>

@@ -33,12 +33,15 @@ const handleAddToCart = async (producto, setMensaje) => {
     window.location.href = "/login";
     return;
   }
-
+  const userId = localStorage.getItem("user_id");
   try {
     const res = await fetch(`${API_URL}/cart/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json", ...getAuthHeader() },
-      body: JSON.stringify({ producto_id: producto.id, cantidad: 1 }),
+      body: JSON.stringify({
+        producto_id: producto.id,
+        cantidad: producto.cantidad || 1,
+      }),
     });
 
     if (!res.ok) {
@@ -48,13 +51,13 @@ const handleAddToCart = async (producto, setMensaje) => {
 
     setMensaje(`${producto.nombre} añadido al carrito`);
 
-    const localCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const localCart = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
     const updatedCart = normalizeCart([
       ...localCart,
-      { producto: producto.id, cantidad: 1 },
+      { producto: producto.id, cantidad: producto.cantidad || 1 },
     ]);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
 
+    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart));
     window.dispatchEvent(
       new CustomEvent("cartUpdated", { detail: { producto: producto.id } })
     );
@@ -112,7 +115,9 @@ function Carrito({ onClose }) {
   const loadCart = async () => {
     setLoading(true);
     try {
-      const localCart = JSON.parse(localStorage.getItem("cart")) || [];
+      const userId = localStorage.getItem("user_id");
+      const localCart =
+        JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
       if (localCart.length === 0) {
         setCarrito([]);
         return;
@@ -130,7 +135,6 @@ function Carrito({ onClose }) {
   useEffect(() => {
     loadCart();
   }, []);
-  
 
   const actualizarCantidad = async (productoId, operacion) => {
     const item = carrito.find((i) => i.producto === productoId);
@@ -150,7 +154,9 @@ function Carrito({ onClose }) {
                   : i
               );
         setCarrito(nuevoCarrito);
-        localStorage.setItem("cart", JSON.stringify(nuevoCarrito));
+        const userId = localStorage.getItem("user_id");
+        localStorage.setItem(`cart_${userId}`, JSON.stringify(nuevoCarrito));
+
         window.dispatchEvent(new CustomEvent("cartUpdated"));
       } else alert(res.message);
     } catch (error) {
@@ -164,7 +170,8 @@ function Carrito({ onClose }) {
       if (res.success) {
         const nuevoCarrito = carrito.filter((i) => i.producto !== productoId);
         setCarrito(nuevoCarrito);
-        localStorage.setItem("cart", JSON.stringify(nuevoCarrito));
+        const userId = localStorage.getItem("user_id");
+        localStorage.setItem(`cart_${userId}`, JSON.stringify(nuevoCarrito));
         window.dispatchEvent(new CustomEvent("cartUpdated"));
       } else alert(res.message);
     } catch (error) {
@@ -186,7 +193,8 @@ function Carrito({ onClose }) {
       const res = await createOrder(items, "efectivo", "");
       if (res.success) {
         setStep("gracias");
-        localStorage.removeItem("cart");
+        const userId = localStorage.getItem("user_id");
+        localStorage.removeItem(`cart_${userId}`);
         setCarrito([]);
       } else alert(res.message);
     } catch (error) {

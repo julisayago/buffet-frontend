@@ -40,7 +40,7 @@
 .carrito-titulo {
   font-size: 1.375rem;
   margin: 0;
-  font-weight: 600;
+  font-weight: 700;
   color: #004080;
 }
 
@@ -367,8 +367,13 @@
   }
 
   .carrito-card {
-    max-width: 100%;
-    margin: 0;
+     max-width: 100%;
+     margin: 0;
+     flex: 1 1 auto;
+     overflow-y: auto;
+     display: flex;
+     flex-direction: column;
+     max-height: calc(100vh - 7.5rem);
   }
 
   .carrito-back {

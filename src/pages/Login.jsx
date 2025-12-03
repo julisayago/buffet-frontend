@@ -34,6 +34,7 @@ export default function Login() {
         setSuccess("Login exitoso");
         localStorage.setItem("token", data.token);
         localStorage.setItem("usuario", JSON.stringify(data.user));
+        localStorage.setItem("user_id", data.user.id);
         setTimeout(() => {
           if (data.user.role === "admin") {
             navigate("/admin");
