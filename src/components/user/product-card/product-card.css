@@ -110,7 +110,7 @@
 /* Desktop amplio */
 @media (min-width: 1100px) {
   .producto-card {
-    width: 210px;
+    width: 230px;
     min-height: 260px;
   }
 
