@@ -1,48 +1,126 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ProductoForm from "@admincomponents/producto-form/producto-form";
+import Loader from "@components/loader/loader";
+import { API_URL } from "@config/api";
+import { toast } from "react-toastify";
 
 export default function ProductoEditar() {
   const navigate = useNavigate();
   const { id } = useParams();
+
   const [producto, setProducto] = useState(null);
+  const [categorias, setCategorias] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
+  // Traer producto
   useEffect(() => {
-    // Simulación de fetch de productos
-    const productosMock = [
-      {
-        id: "1",
-        nombre: "Hamburguesa Clásica",
-        descripcion: "Hamburguesa con queso, lechuga y tomate",
-        precio: 10,
-        categoria: "sandwiches",
-        imagen: "",
-        stock: 12,
-      },
-      {
-        id: "2",
-        nombre: "Sandwich de Pollo",
-        descripcion: "Pollo grillado con lechuga y tomate",
-        precio: 50,
-        categoria: "sandwiches",
-        imagen: "",
-        stock: 5,
-      },
-    ];
+    const fetchProducto = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch(`${API_URL}/products/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Producto no encontrado");
+        console.log("Producto recibido del backend:", data.product);
+        setProducto({
+          ...data.product,
+          category_id: data.product.category_id?.toString() || "",
 
-    const productoEncontrado = productosMock.find(
-      (producto) => producto.id === id
-    );
-    setProducto(productoEncontrado);
+          // normalizar booleanos
+          promocion: Boolean(data.product.promocion),
+          disponible: Boolean(data.product.disponible),
+        });
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducto();
   }, [id]);
 
-  const handleSubmit = (e) => {
+  // Traer categorías
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch(`${API_URL}/categories`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await res.json();
+        const categoriasBack = data.categories.map((cat) => ({
+          id: cat.id,
+          nombre: cat.nombre.charAt(0).toUpperCase() + cat.nombre.slice(1),
+        }));
+        setCategorias(categoriasBack);
+      } catch (err) {
+        console.error("Error cargando categorías:", err);
+      }
+    };
+    fetchCategorias();
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Editando producto:", producto);
-    navigate("/admin/productos");
+    setError("");
+
+    try {
+      const token = localStorage.getItem("token");
+      const formData = new FormData();
+      for (const key in producto) {
+        let value = producto[key];
+
+        // Imagen: solo si es un File
+        if (key === "imagen" && value instanceof File) {
+          formData.append("imagen", value);
+          continue;
+        }
+
+        // Precios: convertir a float
+        if (key === "precio" || key === "precio_promocion") {
+          if (value !== "" && value !== null) value = parseFloat(value);
+        }
+
+        // Booleanos: convertir correctamente
+        if (["disponible", "destacado", "promocion"].includes(key)) {
+          value = value === true || value === "true";
+        }
+
+        // Agregar al FormData solo si no está vacío o nulo
+        if (value !== "" && value !== null && value !== undefined) {
+          formData.append(key, value);
+        }
+      }
+
+      if (producto.category_id) {
+        formData.set("category_id", producto.category_id);
+      }
+
+      const res = await fetch(`${API_URL}/products/${id}`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok)
+        throw new Error(data.message || "Error al actualizar producto");
+
+      toast.success("Producto actualizado correctamente");
+      navigate("/admin/productos");
+    } catch (err) {
+      console.error("Error al actualizar producto:", err);
+      toast.error("Error al actualizar producto: " + err.message);
+      setError(err.message);
+    }
   };
 
-  if (!producto) return <p>Cargando producto...</p>;
+  if (loading) return <Loader text="Cargando producto..." />;
+  if (error) return <p className="error">{error}</p>;
+  if (!producto) return <p>No se encontró el producto</p>;
 
   return (
     <ProductoForm

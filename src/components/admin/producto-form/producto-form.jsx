@@ -1,15 +1,51 @@
+import { useState, useEffect } from "react";
+import { API_URL } from "@config/api";
 import "./producto-form.css";
 
-export default function ProductoForm({ producto, setProducto, onSubmit, title }) {
+export default function ProductoForm({
+  producto,
+  setProducto,
+  onSubmit,
+  title,
+}) {
+  const [categorias, setCategorias] = useState([]);
+
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch(`${API_URL}/categories`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!res.ok) throw new Error("Error al traer categorías");
+        const data = await res.json();
+
+        const categoriasBack = data.categories.map((cat) => ({
+          id: cat.id,
+          nombre: cat.nombre.charAt(0).toUpperCase() + cat.nombre.slice(1),
+        }));
+
+        setCategorias(categoriasBack);
+      } catch (error) {
+        console.error("Error cargando categorías:", error);
+      }
+    };
+    fetchCategorias();
+  }, []);
+
   const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
-    const val = type === "file" ? files[0] : value;
+    const { name, value, type, files, checked } = e.target;
+    const val =
+      type === "file" ? files[0] : type === "checkbox" ? checked : value;
     setProducto((prev) => ({ ...prev, [name]: val }));
   };
 
   return (
     <div className="admin-productos-form-container">
-      <form onSubmit={onSubmit} className="admin-productos-form">
+      <form
+        onSubmit={(e) => onSubmit(e, categorias)}
+        className="admin-productos-form"
+      >
         <h2>{title}</h2>
 
         <label>
@@ -24,7 +60,7 @@ export default function ProductoForm({ producto, setProducto, onSubmit, title })
 
         <label>
           Descripción:
-          <input
+          <textarea
             name="descripcion"
             value={producto.descripcion || ""}
             onChange={handleChange}
@@ -46,30 +82,52 @@ export default function ProductoForm({ producto, setProducto, onSubmit, title })
         <label>
           Categoría:
           <select
-            name="categoria"
-            value={producto.categoria || ""}
+            name="category_id"
+            value={producto.category_id || ""}
             onChange={handleChange}
             required
           >
             <option value="">Seleccionar</option>
-            <option value="bebidas">Bebidas</option>
-            <option value="golosinas">Golosinas</option>
-            <option value="sandwiches">Sandwiches</option>
-            <option value="snacks">Snacks</option>
-            <option value="postres">Postres</option>
+            {categorias.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.nombre}
+              </option>
+            ))}
           </select>
         </label>
 
         <label>
-          Stock:
+          Disponible:
           <input
-            name="stock"
-            type="number"
-            value={producto.stock || ""}
+            type="checkbox"
+            name="disponible"
+            checked={producto.disponible || false}
             onChange={handleChange}
-            required
           />
         </label>
+
+        <label>
+          Promoción:
+          <input
+            type="checkbox"
+            name="promocion"
+            checked={producto.promocion || false}
+            onChange={handleChange}
+          />
+        </label>
+
+        {producto.promocion && (
+          <label>
+            Precio promoción:
+            <input
+              name="precio_promocion"
+              type="number"
+              step="0.01"
+              value={producto.precio_promocion || ""}
+              onChange={handleChange}
+            />
+          </label>
+        )}
 
         <label>
           Imagen:

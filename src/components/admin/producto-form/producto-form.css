@@ -1,4 +1,6 @@
 .admin-productos-form-container {
+  font-family: 'Poppins', sans-serif;
+
   padding: 15px;
   margin: 80px auto 10px auto;
   background-color: #f9f9f9;
@@ -127,6 +129,12 @@
   }
 }
 
+.admin-productos-form textarea {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+}
+
+
 /* Desktop */
 @media (min-width: 1025px) {
   .admin-productos-form-container {
@@ -149,4 +157,3 @@
     padding: 10px 30px;
   }
 }
-
