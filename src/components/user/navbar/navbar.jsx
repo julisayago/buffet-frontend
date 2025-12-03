@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
-import logo from "@assets/logo-buffet.png";
+import React, { useState, useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./navbar.css";
+import Notificaciones from "@usercomponents/notificaciones/notificaciones";
 
 import { AiFillHome, AiOutlineClose } from "react-icons/ai";
 import { FaBoxOpen, FaUserCircle } from "react-icons/fa";
@@ -14,12 +14,46 @@ import Carrito from "@userpages/carrito/carrito";
 const Navbar = () => {
   const [showNav, setShowNav] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  // Estado carrito (solo desktop)
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0); // contador de productos
+
+  const [busqueda, setBusqueda] = useState("");
+  const navigate = useNavigate();
 
   const toggleNav = () => setShowNav((prev) => !prev);
   const toggleDropdown = () => setDropdownOpen((prev) => !prev);
+
+  const handleBuscar = (e) => {
+    e.preventDefault();
+    if (busqueda.trim()) {
+      navigate(`/productos?search=${encodeURIComponent(busqueda.trim())}`);
+      setShowNav(false);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setShowNav(false);
+    navigate("/"); 
+  };
+
+  // Función para actualizar el contador desde localStorage
+  const updateCartCount = () => {
+    const localCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const total = localCart.reduce((acc, item) => acc + (item.cantidad || 0), 0);
+    setCartCount(total);
+  };
+
+  // Actualiza contador al montar y al recibir evento cartUpdated
+  useEffect(() => {
+    updateCartCount();
+    const handleCartUpdated = () => updateCartCount();
+    window.addEventListener("cartUpdated", handleCartUpdated);
+    return () => window.removeEventListener("cartUpdated", handleCartUpdated);
+  }, []);
+
+  
 
   return (
     <nav className="navbar">
@@ -27,29 +61,37 @@ const Navbar = () => {
         {/* LOGO */}
         <div className="logo">
           <NavLink to="/home">
-            <img src={logo} alt="Logo buffet UNaB" />
+            <img src="/Logo-buffet.png" alt="Logo buffet UNaB" />
           </NavLink>
+          <div className="logo-text">
+            <h2>Buffet UNaB</h2>
+          </div>
         </div>
 
         {/* BUSCADOR */}
-        <div className="search-box">
-          <input type="text" placeholder=" Buscar..." />
-        </div>
+        <form className="search-box" onSubmit={handleBuscar}>
+          <input
+            type="text"
+            placeholder="Buscar productos..."
+            value={busqueda}
+            onChange={(e) => setBusqueda(e.target.value)}
+          />
+        </form>
 
         {/* HAMBURGER */}
         <div className="menu-icon" onClick={toggleNav}>
-          {showNav ? (
-            <AiOutlineClose size={24} />
-          ) : (
-            <GiHamburgerMenu size={24} />
-          )}
+          {showNav ? <AiOutlineClose size={24} /> : <GiHamburgerMenu size={24} />}
         </div>
 
-        {/* CARRITO MOBILE (redirige a /carrito) */}
+        {/* CARRITO MOBILE */}
         <div className="cart-icon mobile-cart">
           <NavLink to="/carrito" onClick={() => setShowNav(false)}>
             <MdLocalGroceryStore className="nav-icon-cart" />
+            {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
           </NavLink>
+          <div className="mobile-icon">
+            <Notificaciones />
+          </div>
         </div>
 
         {/* NAV LINKS MOBILE */}
@@ -81,7 +123,13 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/" onClick={() => setShowNav(false)}>
+              <NavLink
+                to="/"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleLogout();
+                }}
+              >
                 <FiLogOut className="nav-icon" /> Cerrar Sesión
               </NavLink>
             </li>
@@ -92,34 +140,25 @@ const Navbar = () => {
         <div className="desktop-nav">
           <ul className="right-links">
             <li>
-              <NavLink
-                to="/home"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Inicio
-              </NavLink>
+              <NavLink to="/home">Inicio</NavLink>
             </li>
             <li>
-              <NavLink
-                to="/productos"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Productos
-              </NavLink>
+              <NavLink to="/productos">Productos</NavLink>
             </li>
             <li>
-              <NavLink
-                to="/contacto"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Contacto
-              </NavLink>
+              <NavLink to="/contacto">Contacto</NavLink>
             </li>
           </ul>
           <ul className="right-icons">
-            {/* Carrito Desktop:*/}
-            <li onClick={() => setIsCartOpen((prev) => !prev)}>
+            {/* Carrito Desktop */}
+            <li onClick={() => setIsCartOpen((prev) => !prev)} className="cart-desktop">
               <MdLocalGroceryStore className="nav-icon-cart" />
+              {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
+            </li>
+
+            {/* Notificaciones */}
+            <li>
+              <Notificaciones />
             </li>
 
             <li
@@ -131,27 +170,24 @@ const Navbar = () => {
               {dropdownOpen && (
                 <ul className="dropdown">
                   <li>
-                    <NavLink
-                      to="/pedidos"
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                    >
+                    <NavLink to="/pedidos">
                       <FiShoppingBag className="nav-icon" /> Mis pedidos
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink
-                      to="/perfil"
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                    >
+                    <NavLink to="/perfil">
                       <FaUserCircle className="nav-icon" /> Mi cuenta
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
                       to="/"
-                      className={({ isActive }) => (isActive ? "active" : "")}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleLogout();
+                      }}
                     >
-                      <FiLogOut className="nav-icon" /> Cerrar sesión
+                      <FiLogOut className="nav-icon" /> Cerrar Sesión
                     </NavLink>
                   </li>
                 </ul>
