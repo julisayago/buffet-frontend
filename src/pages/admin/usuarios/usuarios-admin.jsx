@@ -13,6 +13,10 @@ export default function UsuariosAdmin() {
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState("");
 
+  // Estados para búsqueda y filtros
+  const [busqueda, setBusqueda] = useState("");
+  const [rolFiltro, setRolFiltro] = useState("all");
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -21,7 +25,7 @@ export default function UsuariosAdmin() {
       return;
     }
 
-    fetch(`${API_URL}/users?limit=50`, {
+    fetch(`${API_URL}/users`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())
@@ -52,10 +56,10 @@ export default function UsuariosAdmin() {
 
       if (data.success) {
         setUsuarios(prev => prev.filter(u => u.id !== usuarioAEliminar.id));
-        toast.success(`Usuario ${usuarioAEliminar.nombre} eliminado correctamente`); 
+        toast.success(`Usuario ${usuarioAEliminar.nombre} eliminado correctamente`);
         setUsuarioAEliminar(null);
       } else {
-        toast.error(data.message || "No se pudo eliminar el usuario"); 
+        toast.error(data.message || "No se pudo eliminar el usuario");
       }
     } catch (err) {
       console.error(err);
@@ -67,6 +71,14 @@ export default function UsuariosAdmin() {
 
   if (cargando) return <Loader text="Cargando usuarios..." />;
   if (error) return <p className="error">{error}</p>;
+
+  // Aplicar búsqueda y filtros
+  const usuariosFiltrados = usuarios
+    .filter(u =>
+      u.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
+      u.email.toLowerCase().includes(busqueda.toLowerCase())
+    )
+    .filter(u => (rolFiltro === "all" ? true : u.role === rolFiltro));
 
   return (
     <div className="admin-usuarios-container">
@@ -80,22 +92,35 @@ export default function UsuariosAdmin() {
         </button>
       </div>
 
+      {/* Barra de búsqueda y filtros */}
+      <div className="admin-filtros">
+        <input
+          type="text"
+          placeholder="Buscar por nombre o email..."
+          value={busqueda}
+          onChange={e => setBusqueda(e.target.value)}
+        />
+        <select value={rolFiltro} onChange={e => setRolFiltro(e.target.value)}>
+          <option value="all">Todos los roles</option>
+          <option value="admin">admin</option>
+          <option value="user">user</option>
+        </select>
+      </div>
+
       <div className="admin-usuarios-tabla-wrapper">
-        {usuarios.length === 0 ? (
-          <p className="sin-usuarios">No hay usuarios registrados.</p>
-        ) : (
-          <table className="admin-usuarios-tabla">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Teléfono</th>
-                <th>Rol</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {usuarios.map(usuario => (
+        <table className="admin-usuarios-tabla">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>Rol</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {usuariosFiltrados.length > 0 ? (
+              usuariosFiltrados.map(usuario => (
                 <tr key={usuario.id}>
                   <td>{usuario.nombre}</td>
                   <td>{usuario.email}</td>
@@ -104,9 +129,7 @@ export default function UsuariosAdmin() {
                   <td>
                     <button
                       className="admin-usuarios-boton editar"
-                      onClick={() =>
-                        navigate(`/admin/usuarios/editar/${usuario.id}`)
-                      }
+                      onClick={() => navigate(`/admin/usuarios/editar/${usuario.id}`)}
                     >
                       <FaEdit />
                     </button>
@@ -118,10 +141,16 @@ export default function UsuariosAdmin() {
                     </button>
                   </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" style={{ textAlign: "center" }}>
+                  No hay usuarios que coincidan con la búsqueda o filtros.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
 
       {usuarioAEliminar && (

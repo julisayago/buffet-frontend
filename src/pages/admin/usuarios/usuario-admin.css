@@ -176,7 +176,7 @@
   }
 }
 
-/* Tablet */
+/* Tablet styles */
 @media (min-width: 768px) and (max-width: 1023px) {
   .admin-usuarios-container {
     margin-top: 30px;
@@ -187,7 +187,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 1px;
   }
 
   .admin-usuarios-titulo {
@@ -226,7 +226,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 1px;
   }
 
   .admin-usuarios-titulo {
