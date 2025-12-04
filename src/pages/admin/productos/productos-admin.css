@@ -189,7 +189,15 @@
   .admin-productos-container {
     padding: 10px;
   }
+
+  .admin-productos-tabla th:nth-child(1),
+  .admin-productos-tabla td:nth-child(1),
+  .admin-productos-tabla th:nth-child(4),
+  .admin-productos-tabla td:nth-child(4) {
+    display: none;
+  }
 }
+
 
 /* Tablet styles */
 @media (min-width: 768px) and (max-width: 1023px) {
