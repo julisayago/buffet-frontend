@@ -18,22 +18,6 @@ function AdminLayout({ children }) {
     return () => socket.disconnect();
   }, []);
 
-  useEffect(() => {
-    const audio = new Audio("/sounds/notification.mp3");
-
-    const enableAudio = () => {
-      audio.play().catch(() => {
-      });
-      document.removeEventListener("click", enableAudio);
-    };
-
-    document.addEventListener("click", enableAudio);
-
-    return () => {
-      document.removeEventListener("click", enableAudio);
-    };
-  }, []);
-
   return (
     <div style={{ display: "flex", minHeight: "100vh" }}>
       <AdminSidebar />
