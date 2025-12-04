@@ -27,10 +27,10 @@ export default function ProductoEditar() {
         setProducto({
           ...data.product,
           category_id: data.product.category_id?.toString() || "",
-
-          // normalizar booleanos
           promocion: Boolean(data.product.promocion),
           disponible: Boolean(data.product.disponible),
+          imagenUrl: data.product.imagen, 
+          image: null, 
         });
       } catch (err) {
         setError(err.message);
@@ -69,29 +69,27 @@ export default function ProductoEditar() {
     try {
       const token = localStorage.getItem("token");
       const formData = new FormData();
+
       for (const key in producto) {
         let value = producto[key];
 
-        // Imagen: solo si es un File
-        if (key === "imagen" && value instanceof File) {
-          formData.append("imagen", value);
-          continue;
-        }
+        if (key === "image" || key === "imagenUrl") continue;
 
-        // Precios: convertir a float
         if (key === "precio" || key === "precio_promocion") {
           if (value !== "" && value !== null) value = parseFloat(value);
         }
 
-        // Booleanos: convertir correctamente
         if (["disponible", "destacado", "promocion"].includes(key)) {
-          value = value === true || value === "true";
+          value = value ? "true" : "false";
         }
 
-        // Agregar al FormData solo si no está vacío o nulo
         if (value !== "" && value !== null && value !== undefined) {
           formData.append(key, value);
         }
+      }
+
+      if (producto.image instanceof File) {
+        formData.append("image", producto.image);
       }
 
       if (producto.category_id) {

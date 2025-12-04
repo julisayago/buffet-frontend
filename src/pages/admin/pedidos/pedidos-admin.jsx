@@ -305,7 +305,11 @@ export default function PedidosAdmin() {
               {pedidoDetalle.items?.map((item) => (
                 <li key={item.id} className="detalle-producto-item">
                   <img
-                    src={item.product?.imagen || "/placeholder.png"}
+                    src={
+                      item.product?.imagen
+                        ? `${API_URL.replace("/api", "")}${item.product.imagen}`
+                        : "/placeholder.png"
+                    }
                     alt={item.product?.nombre}
                     className="detalle-producto-imagen"
                   />

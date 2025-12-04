@@ -25,13 +25,13 @@ export default function ProductosAdmin() {
       try {
         setLoading(true);
 
-        // 1️Traer categorías
+        // Traer categorías
         const resCats = await fetch(`${API_URL}/categories`);
         const dataCats = await resCats.json();
         const categoriasData = dataCats.categories || [];
         setCategorias(categoriasData);
 
-        // 2️Traer productos
+        // Traer productos
         const resProds = await fetch(`${API_URL}/products`, {
           credentials: "include",
         });
@@ -40,7 +40,7 @@ export default function ProductosAdmin() {
         if (!resProds.ok)
           throw new Error(dataProds.message || "Error al cargar productos");
 
-        // 3️Mapear categoria_id a nombre
+        // Mapear categoria_id a nombre
         const productosConCategoria = dataProds.products.map((p) => {
           const cat = categoriasData.find((c) => c.id === p.category_id);
           return {
@@ -111,7 +111,7 @@ export default function ProductosAdmin() {
         ? true
         : p.categoria.toLowerCase() ===
           categorias.find((c) => c.id == categoriaFiltro)?.nombre?.toLowerCase()
-    )
+    );
 
   return (
     <div className="admin-productos-container">
@@ -174,7 +174,11 @@ export default function ProductosAdmin() {
                 <tr key={producto.id}>
                   <td>
                     <img
-                      src={producto.imagen_url}
+                      src={
+                        producto.imagen
+                          ? `${API_URL.replace("/api", "")}${producto.imagen}`
+                          : "/placeholder.png"
+                      }
                       alt={producto.nombre}
                       className="admin-productos-imagen"
                     />

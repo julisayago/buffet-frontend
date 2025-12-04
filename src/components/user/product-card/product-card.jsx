@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./product-card.css";
+import { API_URL } from "@config/api";
 
 function ProductCard({ producto, onAddToCart }) {
   const navigate = useNavigate();
@@ -13,7 +14,14 @@ function ProductCard({ producto, onAddToCart }) {
 
   return (
     <div className="producto-card" onClick={handleCardClick}>
-      <img src={producto.img} alt={producto.nombre} />
+      <img
+        src={
+          producto.imagen
+            ? `${API_URL.replace("/api", "")}${producto.imagen}`
+            : "/placeholder.png"
+        }
+        alt={producto.nombre}
+      />
       <h3>{producto.nombre}</h3>
 
       <div className="producto-precio">

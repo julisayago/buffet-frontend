@@ -133,19 +133,41 @@ export default function ProductoForm({
             step="0.01"
             value={producto.precio_promocion || ""}
             onChange={handleChange}
-            disabled={!producto.promocion} 
+            disabled={!producto.promocion}
           />
         </label>
 
         <label>
           Imagen:
           <input
-            name="imagen"
+            name="image"
             type="file"
             accept="image/*"
             onChange={handleChange}
           />
         </label>
+
+        {producto.imagenUrl && !producto.image && (
+          <div className="preview-imagen">
+            <img
+              src={`${API_URL.replace("/api", "")}${producto.imagenUrl}`}
+              alt="Imagen actual"
+              style={{ width: "150px", marginBottom: "10px" }}
+            />
+            <p>Imagen actual</p>
+          </div>
+        )}
+
+        {producto.image && (
+          <div className="preview-imagen-nueva">
+            <img
+              src={URL.createObjectURL(producto.image)}
+              alt="Nueva imagen seleccionada"
+              style={{ width: "150px", marginBottom: "10px" }}
+            />
+            <p>Nueva imagen seleccionada</p>
+          </div>
+        )}
 
         <div className="admin-productos-form-acciones">
           <button type="submit">Guardar</button>

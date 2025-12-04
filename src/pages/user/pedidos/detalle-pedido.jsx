@@ -61,9 +61,14 @@ const Detalle = () => {
         {pedido.items.map((item) => (
           <div className="pedidoDetalle-item" key={item.id}>
             <img
-              src={item.product.imagen || "https://via.placeholder.com/80"}
-              alt={item.product.nombre}
+              src={
+                item.product?.imagen
+                  ? `${API_URL.replace("/api", "")}${item.product.imagen}`
+                  : "https://via.placeholder.com/80"
+              }
+              alt={item.product?.nombre}
             />
+
             <div className="pedidoDetalle-info">
               <p className="pedidoDetalle-nombre">{item.product.nombre}</p>
               <p className="pedidoDetalle-precio">

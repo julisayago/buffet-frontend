@@ -16,7 +16,7 @@ export default function ProductoCrear() {
     destacado: false,
     promocion: false,
     precio_promocion: "",
-    imagen: null,
+    image: null,
   });
 
   const [error, setError] = useState("");
@@ -33,8 +33,8 @@ export default function ProductoCrear() {
         let value = producto[key];
 
         // Imagen
-        if (key === "imagen" && value instanceof File) {
-          formData.append("imagen", value);
+        if (key === "image" && value instanceof File) {
+          formData.append("image", value);
           continue;
         }
 

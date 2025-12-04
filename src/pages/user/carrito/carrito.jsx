@@ -187,23 +187,22 @@ function Carrito({ onClose }) {
   );
 
   const confirmarPedido = async () => {
-  try {
-    const items = carrito.map((item) => ({
-      producto: item.producto,
-      cantidad: item.cantidad,
-    }));
-    const res = await createOrder(items, metodoPago, notas);
-    if (res.success) {
-      setStep("gracias");
-      const userId = localStorage.getItem("user_id");
-      localStorage.removeItem(`cart_${userId}`);
-      setCarrito([]);
-    } else alert(res.message);
-  } catch (error) {
-    console.error("Error creando pedido:", error);
-  }
-};
-
+    try {
+      const items = carrito.map((item) => ({
+        producto: item.producto,
+        cantidad: item.cantidad,
+      }));
+      const res = await createOrder(items, metodoPago, notas);
+      if (res.success) {
+        setStep("gracias");
+        const userId = localStorage.getItem("user_id");
+        localStorage.removeItem(`cart_${userId}`);
+        setCarrito([]);
+      } else alert(res.message);
+    } catch (error) {
+      console.error("Error creando pedido:", error);
+    }
+  };
 
   if (loading) return <p>Cargando carrito...</p>;
 
@@ -268,7 +267,14 @@ function Carrito({ onClose }) {
                       >
                         ✕
                       </button>
-                      <img src={item.img} alt={item.nombre} />
+                      <img
+                        src={
+                          item.imagen
+                            ? `${API_URL.replace("/api", "")}${item.imagen}`
+                            : "/placeholder.png"
+                        }
+                        alt={item.nombre}
+                      />
                       <div className="carrito-info">
                         <p className="carrito-nombre">{item.nombre}</p>
                         <div className="carrito-precio-cantidad">
