@@ -23,7 +23,10 @@ function Home() {
 
         const categoriasBack = data.categories.map((cat) => ({
           id: cat.id,
-          nombre: cat.nombre.charAt(0).toUpperCase() + cat.nombre.slice(1),
+          nombre: cat.nombre
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" "),
         }));
 
         setCategorias([{ id: "all", nombre: "Todo" }, ...categoriasBack]);

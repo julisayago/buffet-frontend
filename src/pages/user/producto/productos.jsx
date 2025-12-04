@@ -68,8 +68,8 @@ function Productos() {
         const data = await res.json();
 
         const categoriasBack = data.categories.map((cat) => ({
-          id: String(cat.id), 
-          nombre: cat.nombre,
+          id: String(cat.id),
+          nombre: cat.nombre.charAt(0).toUpperCase() + cat.nombre.slice(1),
         }));
 
         setCategorias([{ id: "all", nombre: "Todo" }, ...categoriasBack]);
