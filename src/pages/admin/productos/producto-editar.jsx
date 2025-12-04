@@ -29,8 +29,8 @@ export default function ProductoEditar() {
           category_id: data.product.category_id?.toString() || "",
           promocion: Boolean(data.product.promocion),
           disponible: Boolean(data.product.disponible),
-          imagenUrl: data.product.imagen, 
-          image: null, 
+          imagenUrl: data.product.imagen,
+          image: null,
         });
       } catch (err) {
         setError(err.message);
@@ -75,16 +75,23 @@ export default function ProductoEditar() {
 
         if (key === "image" || key === "imagenUrl") continue;
 
-        if (key === "precio" || key === "precio_promocion") {
-          if (value !== "" && value !== null) value = parseFloat(value);
+        // Números
+        if (["precio", "precio_promocion", "stock"].includes(key)) {
+          if (value !== "" && value !== null) {
+            formData.set(key, parseFloat(value));
+          }
+          continue;
         }
 
+        // Booleanos
         if (["disponible", "destacado", "promocion"].includes(key)) {
-          value = value ? "true" : "false";
+          formData.set(key, value ? "true" : "false");
+          continue;
         }
 
+        // Otros campos (nombre, descripcion, category_id, etc.)
         if (value !== "" && value !== null && value !== undefined) {
-          formData.append(key, value);
+          formData.set(key, value);
         }
       }
 

@@ -104,7 +104,17 @@ export default function ProductoForm({
             ))}
           </select>
         </label>
-
+        <label>
+          Stock:
+          <input
+            name="stock"
+            type="number"
+            step="1"
+            value={producto.stock || ""}
+            onChange={handleChange}
+            required
+          />
+        </label>
         <label>
           Disponible:
           <input

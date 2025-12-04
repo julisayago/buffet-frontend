@@ -15,7 +15,10 @@ export default function ProductosAdmin() {
 
   const [busqueda, setBusqueda] = useState("");
   const [categoriaFiltro, setCategoriaFiltro] = useState("all");
-  const [filtros, setFiltros] = useState({});
+  const [filtros, setFiltros] = useState({
+    stockBajo: false,
+    promociones: false,
+  });
 
   const [categorias, setCategorias] = useState([]);
 
@@ -111,7 +114,9 @@ export default function ProductosAdmin() {
         ? true
         : p.categoria.toLowerCase() ===
           categorias.find((c) => c.id == categoriaFiltro)?.nombre?.toLowerCase()
-    );
+    )
+    .filter((p) => (filtros.stockBajo ? p.stock < 10 : true))
+    .filter((p) => (filtros.promociones ? p.promocion === true : true)); 
 
   return (
     <div className="admin-productos-container">
@@ -150,10 +155,30 @@ export default function ProductosAdmin() {
           <option value="all">Todas las categorías</option>
           {categorias.map((cat) => (
             <option key={cat.id} value={cat.id}>
-              {cat.nombre}
+              {cat.nombre.charAt(0).toUpperCase() + cat.nombre.slice(1)}
             </option>
           ))}
         </select>
+        <label>
+          <input
+            type="checkbox"
+            checked={filtros.stockBajo}
+            onChange={(e) =>
+              setFiltros((prev) => ({ ...prev, stockBajo: e.target.checked }))
+            }
+          />
+          Stock bajo
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={filtros.promociones}
+            onChange={(e) =>
+              setFiltros((prev) => ({ ...prev, promociones: e.target.checked }))
+            }
+          />
+          Promociones
+        </label>
       </div>
 
       <div className="admin-productos-tabla-wrapper">
@@ -164,6 +189,7 @@ export default function ProductosAdmin() {
               <th>Nombre</th>
               <th>Precio</th>
               <th>Categoría</th>
+              <th>Stock</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -184,9 +210,24 @@ export default function ProductosAdmin() {
                     />
                   </td>
                   <td>{producto.nombre}</td>
-                  <td>${producto.precio.toFixed(2)}</td>
+                  <td>
+                    {producto.promocion && producto.precio_promocion ? (
+                      <div className="precio-con-promo">
+                        <div className="precio-promocion">
+                          ${producto.precio_promocion.toFixed(2)}
+                        </div>
+                        <div className="precio-original">
+                          ${producto.precio.toFixed(2)}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="precio-normal">
+                        ${producto.precio.toFixed(2)}
+                      </div>
+                    )}
+                  </td>
                   <td>{producto.categoria}</td>
-
+                  <td>{producto.stock}</td>
                   <td>
                     <button
                       className="admin-productos-boton editar"
