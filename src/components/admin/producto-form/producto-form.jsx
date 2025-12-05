@@ -160,7 +160,7 @@ export default function ProductoForm({
         {producto.imagenUrl && !producto.image && (
           <div className="preview-imagen">
             <img
-              src={`${API_URL.replace("/api", "")}${producto.imagenUrl}`}
+              src={producto.imagenUrl}
               alt="Imagen actual"
               style={{ width: "150px", marginBottom: "10px" }}
             />

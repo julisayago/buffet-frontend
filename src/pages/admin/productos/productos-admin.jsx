@@ -116,7 +116,7 @@ export default function ProductosAdmin() {
           categorias.find((c) => c.id == categoriaFiltro)?.nombre?.toLowerCase()
     )
     .filter((p) => (filtros.stockBajo ? p.stock < 10 : true))
-    .filter((p) => (filtros.promociones ? p.promocion === true : true)); 
+    .filter((p) => (filtros.promociones ? p.promocion === true : true));
 
   return (
     <div className="admin-productos-container">
@@ -201,9 +201,7 @@ export default function ProductosAdmin() {
                   <td>
                     <img
                       src={
-                        producto.imagen
-                          ? `${API_URL.replace("/api", "")}${producto.imagen}`
-                          : "/placeholder.png"
+                        producto.imagen ? producto.imagen : "/placeholder.png"
                       }
                       alt={producto.nombre}
                       className="admin-productos-imagen"

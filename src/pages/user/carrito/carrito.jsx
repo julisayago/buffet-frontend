@@ -268,11 +268,7 @@ function Carrito({ onClose }) {
                         ✕
                       </button>
                       <img
-                        src={
-                          item.imagen
-                            ? `${API_URL.replace("/api", "")}${item.imagen}`
-                            : "/placeholder.png"
-                        }
+                        src={item.imagen ? item.imagen : "/placeholder.png"}
                         alt={item.nombre}
                       />
                       <div className="carrito-info">

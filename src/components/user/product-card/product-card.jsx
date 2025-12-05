@@ -15,11 +15,7 @@ function ProductCard({ producto, onAddToCart }) {
   return (
     <div className="producto-card" onClick={handleCardClick}>
       <img
-        src={
-          producto.imagen
-            ? `${API_URL.replace("/api", "")}${producto.imagen}`
-            : "/placeholder.png"
-        }
+        src={producto.imagen ? producto.imagen : "/placeholder.png"}
         alt={producto.nombre}
       />
       <h3>{producto.nombre}</h3>

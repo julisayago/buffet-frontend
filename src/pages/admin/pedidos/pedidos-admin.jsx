@@ -307,7 +307,7 @@ export default function PedidosAdmin() {
                   <img
                     src={
                       item.product?.imagen
-                        ? `${API_URL.replace("/api", "")}${item.product.imagen}`
+                        ? item.product.imagen
                         : "/placeholder.png"
                     }
                     alt={item.product?.nombre}

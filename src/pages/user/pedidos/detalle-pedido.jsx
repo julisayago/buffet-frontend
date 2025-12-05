@@ -63,12 +63,11 @@ const Detalle = () => {
             <img
               src={
                 item.product?.imagen
-                  ? `${API_URL.replace("/api", "")}${item.product.imagen}`
+                  ? item.product.imagen
                   : "https://via.placeholder.com/80"
               }
               alt={item.product?.nombre}
             />
-
             <div className="pedidoDetalle-info">
               <p className="pedidoDetalle-nombre">{item.product.nombre}</p>
               <p className="pedidoDetalle-precio">
