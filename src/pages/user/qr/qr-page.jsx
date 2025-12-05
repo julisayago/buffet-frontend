@@ -26,9 +26,6 @@ function QRPage() {
         });
 
         const data = await response.json();
-
-        console.log("QR recibido:", data.qr_code);
-
         if (data.qr_code) {
           setQrCode(data.qr_code);
           setNumeroPedido(data.order.numero_pedido);
