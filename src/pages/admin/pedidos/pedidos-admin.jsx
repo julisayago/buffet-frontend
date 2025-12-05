@@ -288,9 +288,7 @@ export default function PedidosAdmin() {
               <strong>Teléfono:</strong> {pedidoDetalle.user?.telefono}
             </p>
             <p>
-              <strong>Estado:</strong>{" "}
-              {pedidoDetalle.estado.charAt(0).toUpperCase() +
-                pedidoDetalle.estado.slice(1).toLowerCase()}
+              <strong>Estado:</strong> {pedidoDetalle.estado}
             </p>
             <p>
               <strong>Total:</strong> $
@@ -298,6 +296,17 @@ export default function PedidosAdmin() {
                 minimumFractionDigits: 2,
               })}
             </p>
+
+            <p>
+              <strong>Método de pago:</strong>{" "}
+              {pedidoDetalle.metodo_pago || "No especificado"}
+            </p>
+            {pedidoDetalle.notas && (
+              <p>
+                <strong>Notas:</strong> {pedidoDetalle.notas}
+              </p>
+            )}
+
             <p>
               <strong>Productos:</strong>
             </p>
@@ -305,11 +314,7 @@ export default function PedidosAdmin() {
               {pedidoDetalle.items?.map((item) => (
                 <li key={item.id} className="detalle-producto-item">
                   <img
-                    src={
-                      item.product?.imagen
-                        ? item.product.imagen
-                        : "/placeholder.png"
-                    }
+                    src={item.product?.imagen || "/placeholder.png"}
                     alt={item.product?.nombre}
                     className="detalle-producto-imagen"
                   />
