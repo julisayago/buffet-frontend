@@ -20,7 +20,6 @@ pnpm-debug.log*
 .env.production
 
 # Archivos docker (hasta tener la versión productiva).
-Dockerfile
 .dockerignore
 
 # Editor directories and files
