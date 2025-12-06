@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 import Logo from "@assets/logo-buffet.png";
+// import logo from "../assets/logo-buffet.png";
 import { AiOutlineUser, AiOutlineLock, AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { API_URL } from "@config/api";
 
