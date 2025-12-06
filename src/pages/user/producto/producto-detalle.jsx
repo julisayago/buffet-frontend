@@ -59,7 +59,7 @@ function ProductoDetalle() {
         </div>
 
         <img
-          src={producto.img || "https://via.placeholder.com/300"}
+          src={producto.imagen || "https://via.placeholder.com/300"}
           alt={producto.nombre}
           className="detalle-img"
         />
