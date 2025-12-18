@@ -8,7 +8,7 @@ Incluyendo facilidad en la gestión de pedidios para los administradores.
 ## 🚀 Tecnologías (propuestas)
 - **Frontend**: React + Vite + CSS
 - **Backend**: Node.js con Expres
-- **Base de datos**: PostgreSQL
+- **Base de datos**: MySQL
 - **Control de versiones**: Git + GitHub
 
 ## 👥 Integrantes
